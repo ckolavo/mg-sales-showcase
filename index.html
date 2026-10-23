@@ -1,0 +1,1018 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#285c86"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/apple-180.png"><style>body{margin:0;background:#fff}[hidden]{display:none!important}</style><title>Moody Gardens Sales Showcase</title>
+<link rel="stylesheet" href="vendor/fonts.css">
+<style>
+/* Layout: blue side rail (sections) + item list + photo viewer. One deliberate light look in the Moody Gardens palette. */
+:root{
+  --blue:#285c86; --cyan:#06c0f2; --pink:#ec2c91; --green:#91c73f; --orange:#ff9d56;
+  --ink:#1a1a1a; --muted:#4a4a4a; --paper:#ffffff; --wash:#f3f4f5; --line:#d9dcdf; --black:#000000;
+  --font:"Raleway", "Segoe UI", Arial, sans-serif;
+  --rail:132px; --list:288px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;-webkit-tap-highlight-color:transparent;overflow:hidden}
+button,select{font:inherit;font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;color:inherit}
+img{max-width:100%;display:block}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.app{display:flex;height:100%;padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+
+/* Rail */
+.rail{width:var(--rail);flex-shrink:0;background:var(--blue);color:#fff;display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 0 16px}
+.brand{padding:0 12px 16px;border-bottom:1px solid rgba(255,255,255,.25);margin-bottom:8px;width:100%}
+.brand img{width:100%;height:auto;display:block}
+.nav{display:flex;flex-direction:column;gap:6px;width:100%;align-items:center}
+.nav button{width:112px;min-height:76px;border:0;border-radius:20px;background:transparent;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:12px;font-weight:700;line-height:1.15;text-align:center;padding:8px 4px;cursor:pointer}
+.nav button svg{width:32px;height:32px;overflow:visible}
+.mgi{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.mgi .a{fill:var(--cyan);stroke:none;opacity:.55}
+.nav button[aria-current="page"] .mgi .a{opacity:.35}
+.nav button[aria-current="page"]{background:#fff;color:var(--blue);font-weight:800}
+.rail .stamp{margin-top:auto;font-size:11px;opacity:.8;text-align:center;padding:0 6px}
+/* Short landscape screens (the tablet with Chrome's bars showing): tighten the rail so Present stays on screen */
+.rail{overflow-y:auto;scrollbar-width:none}
+@media (min-width:761px) and (max-height:900px){
+  .rail{padding:12px 0 12px;gap:4px}
+  .brand{padding:0 16px 10px;margin-bottom:4px}
+  .nav{gap:4px}
+  .nav button{min-height:62px;gap:4px;padding:6px 4px}
+  .nav button svg{width:28px;height:28px}
+  .rail .stamp{display:none}
+  .presentbtn,.editbtn{min-height:40px}
+  .presentbtn + .editbtn{margin-top:8px}
+}
+@media (min-width:761px) and (max-height:740px){
+  .brand{padding:0 22px 8px}
+  .nav button{min-height:54px;font-size:11px}
+  .nav button svg{width:24px;height:24px}
+}
+
+/* Main */
+.main{flex:1;min-width:0;display:flex;height:100%}
+.view{flex:1;min-width:0;display:flex;height:100%}
+.view[hidden]{display:none!important}
+
+/* Home */
+.home{flex-direction:column;padding:32px 36px 28px;gap:22px;overflow:auto}
+.kicker{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--pink)}
+.home h1{margin:6px 0 0;font-size:clamp(28px,3.4vw,42px);line-height:1.12;font-weight:800;color:var(--blue);text-wrap:balance;max-width:28ch}
+.tiles{flex:1;min-height:420px;display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:16px}
+.tile{position:relative;border:0;padding:0;border-radius:20px;overflow:hidden;cursor:pointer;background:var(--wash);text-align:left}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tile span{position:absolute;inset:auto 0 0 0;padding:48px 20px 16px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.72));color:#fff;font-weight:800;font-size:22px;line-height:1.15}
+.tile small{display:block;font-weight:700;font-size:13px;opacity:.9;margin-top:4px}
+.tile.big{grid-row:1 / 3}
+.tile.big span{font-size:30px}
+
+/* Collection: list + viewer */
+.list{width:var(--list);flex-shrink:0;background:var(--wash);overflow:auto;padding:22px 14px 28px;border-right:1px solid var(--line)}
+.list h2{margin:0 10px 14px;font-size:20px;font-weight:800;color:var(--blue)}
+.grp{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);padding:16px 12px 6px}
+.list button{display:block;width:100%;text-align:left;border:0;background:transparent;border-radius:20px;padding:12px 14px;font-size:15px;font-weight:700;line-height:1.25;color:var(--ink);cursor:pointer}
+.list button[aria-current="true"]{background:var(--blue);color:#fff;font-weight:800}
+.picker{display:none}
+.viewer{flex:1;min-width:0;display:flex;flex-direction:column;padding:20px 24px 18px;gap:12px}
+.stage{position:relative;flex:1;min-height:0;border-radius:20px;overflow:hidden;background:#0d0d0d;touch-action:pan-y;user-select:none}
+.stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .2s ease}
+.stage.contain img{object-fit:contain;background:#fff}
+.arrow{position:absolute;top:50%;margin-top:-28px;width:56px;height:56px;border-radius:28px;border:0;background:rgba(0,0,0,.45);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.arrow.prev{left:14px}.arrow.next{right:14px}
+.arrow svg{width:26px;height:26px}
+.count{position:absolute;right:14px;bottom:14px;background:rgba(0,0,0,.55);color:#fff;font-size:14px;font-weight:700;padding:7px 13px;border-radius:20px}
+.cap{position:absolute;left:14px;bottom:14px;background:rgba(0,0,0,.55);color:#fff;font-size:14px;font-weight:700;padding:7px 13px;border-radius:20px;max-width:60%}
+.cap:empty{display:none}
+.strip{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 6px;scrollbar-width:thin}
+.strip button{flex-shrink:0;width:104px;height:64px;padding:0;border:0;border-radius:8px;overflow:hidden;cursor:pointer;opacity:.7;background:var(--wash)}
+.strip button img{width:100%;height:100%;object-fit:cover}
+.strip button[aria-current="true"]{opacity:1;outline:3px solid var(--blue);outline-offset:2px}
+.info{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.info-text{min-width:0;flex:1 1 420px;display:flex;flex-direction:column;gap:6px}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--pink)}
+.info h1{margin:0;font-size:clamp(22px,2.4vw,30px);font-weight:800;color:var(--blue);line-height:1.15}
+.facts{list-style:none;margin:2px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:4px 22px;font-size:15px;line-height:1.45;color:var(--muted)}
+.facts li{display:flex;gap:8px;align-items:flex-start}
+.facts svg{width:18px;height:18px;flex-shrink:0;margin-top:2px}
+.variants{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.variants button{border:1px solid var(--blue);background:#fff;color:var(--blue);border-radius:20px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer}
+.variants button[aria-pressed="true"]{background:var(--blue);color:#fff}
+.variant-pick{display:none}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:12px 22px;border-radius:20px;border:2px solid transparent;font-size:14px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn svg{width:18px;height:18px}
+.btn.cyan{background:var(--cyan);color:#fff;text-shadow:0 1px 2px rgba(40,92,134,.75)}
+.btn.cyan:hover{background:#fff;color:var(--cyan);border-color:var(--cyan);text-shadow:none}
+.btn.blue{background:var(--blue);color:#fff}
+.btn.blue:hover{background:#fff;color:var(--blue);border-color:var(--blue)}
+.btn.pink{background:var(--pink);color:#fff}
+.btn.pink:hover{background:#fff;color:var(--pink);border-color:var(--pink)}
+.links{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:4px}
+.links b{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-right:4px}
+.links button{border:1px solid var(--pink);background:#fff;color:var(--pink);border-radius:20px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer}
+.links button:hover{background:var(--pink);color:#fff}
+.links:empty{display:none}
+
+/* Tours */
+.tours{flex-direction:column;padding:32px 36px;gap:20px;overflow:auto}
+.tours h2{margin:0;font-size:clamp(26px,3vw,36px);font-weight:800;color:var(--blue)}
+.note{margin:0;font-size:15px;color:var(--muted);max-width:62ch;line-height:1.5}
+.tgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.tcard{display:flex;flex-direction:column;border-radius:20px;overflow:hidden;background:var(--wash);text-decoration:none;color:var(--ink)}
+.tcard .ph{position:relative;aspect-ratio:16/10;background:#ddd}
+.tcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tcard .ph.plan img{object-fit:contain;background:#fff}
+.tcard .tx{padding:14px 16px 16px;display:flex;flex-direction:column;gap:4px}
+.tcard b{font-size:18px;font-weight:800;color:var(--blue)}
+.tcard small{font-size:13px;font-weight:700;color:var(--muted)}
+button.tcard{border:0;padding:0;font:inherit;text-align:left;cursor:pointer}
+.tcard:hover b{color:var(--pink)}
+.tgroup{display:flex;flex-direction:column;gap:14px}
+.tgroup h3{margin:6px 0 0;font-size:15px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+
+/* 360 viewer */
+.pano{flex-direction:column;padding:20px 28px 22px;gap:14px;height:100%;min-height:0}
+.phead{display:flex;align-items:center;gap:16px}
+.phead .ptitle{flex:1;min-width:0}
+.phead h2{margin:2px 0 0;font-size:clamp(22px,2.4vw,30px);font-weight:800;color:var(--blue);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pstage{position:relative;flex:1;min-height:320px;border-radius:20px;overflow:hidden;background:#0d1b26}
+#pano{position:absolute;inset:0}
+.pstage .pscene{position:absolute;left:16px;bottom:16px;z-index:3;padding:8px 14px;border-radius:20px;background:rgba(0,0,0,.55);color:#fff;font-size:14px;font-weight:700;pointer-events:none;max-width:calc(100% - 32px)}
+.pstage .arrow{z-index:3;background:rgba(0,0,0,.42)}
+.pstage .pmsg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;color:#fff;font-size:16px;font-weight:700;text-align:center;z-index:2}
+.pstage .pmsg[hidden]{display:none}
+.pstrip{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.pstrip button{flex:0 0 auto;width:150px;display:flex;flex-direction:column;gap:6px;border:0;padding:0;background:none;cursor:pointer;text-align:left;font:inherit}
+.sheet{display:block;background-color:#0d1b26;background-repeat:no-repeat;background-origin:border-box}
+.tcard .ph .sheet{position:absolute;inset:0}
+.pstrip .sheet{width:150px;height:84px;border-radius:12px;border:3px solid transparent;box-sizing:border-box}
+.pstrip span{font-size:12.5px;font-weight:700;color:var(--muted);line-height:1.25}
+.pstrip button[aria-pressed="true"] .sheet{border-color:var(--cyan)}
+.pstrip button[aria-pressed="true"] span{color:var(--blue)}
+.pstrip:empty{display:none}
+.pano.pfull{position:fixed;inset:0;z-index:50;background:#000;padding:calc(12px + env(safe-area-inset-top,0px)) 12px calc(12px + env(safe-area-inset-bottom,0px))}
+.pano.pfull .phead h2{color:#fff}
+.pano.pfull .pstage{border-radius:0}
+.pano.pfull .pstrip span{color:#cfd6dc}
+.pano.pfull .pstrip button[aria-pressed="true"] span{color:#fff}
+.pnlm-container{background:#0d1b26!important;font-family:var(--font)!important}
+.pnlm-load-box{background-color:rgba(0,0,0,.55)!important;border-radius:20px!important}
+
+/* Full screen viewer */
+.fs{position:fixed;inset:0;background:#000;z-index:50;display:flex}
+.fs[hidden]{display:none}
+.fs img{width:100%;height:100%;object-fit:contain}
+.fs .close{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px));width:56px;height:56px;border-radius:28px;border:0;background:rgba(255,255,255,.18);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.fs .close svg{width:26px;height:26px}
+.fs .arrow{background:rgba(255,255,255,.18)}
+.fs .count{bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+
+/* Tablet portrait */
+@media (max-width:1100px){
+  :root{--rail:120px;--list:240px}
+  .nav button{width:104px}
+  .tiles{grid-template-columns:1fr 1fr;grid-template-rows:none;grid-auto-rows:220px}
+  .tile.big{grid-row:auto;grid-column:1 / 3}
+  .tgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pano{padding:16px 18px 18px}
+  .pstrip button,.pstrip .sheet{width:132px}
+  .pstrip .sheet{height:74px}
+}
+/* Phone */
+@media (max-width:760px){
+  body{overflow:auto}
+  .app{flex-direction:column-reverse;height:auto;min-height:100%}
+  .rail{position:fixed;left:0;right:0;bottom:0;width:auto;flex-direction:row;padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px));z-index:20}
+  .brand,.rail .stamp{display:none}
+  .nav{flex-direction:row;justify-content:space-around}
+  .nav button{width:auto;flex:1;min-height:58px;font-size:10.5px;border-radius:16px;padding:6px 2px}
+  .nav button svg{width:28px;height:28px}
+  .main{height:auto;padding-bottom:calc(80px + env(safe-area-inset-bottom,0px))}
+  .view{flex-direction:column;height:auto}
+  .home,.tours{padding:22px 16px}
+  .tiles{grid-template-columns:1fr;grid-auto-rows:190px;min-height:0}
+  .tile.big{grid-column:auto}
+  .tgrid{grid-template-columns:1fr}
+  .pano{padding:14px 12px 16px;height:calc(100vh - 80px - env(safe-area-inset-bottom,0px));height:calc(100dvh - 80px - env(safe-area-inset-bottom,0px))}
+  .phead{gap:10px}
+  .phead .btn{padding:10px 14px}
+  .phead .fslabel{display:none}
+  .pstage{min-height:240px}
+  .pstrip button,.pstrip .sheet{width:112px}
+  .pstrip .sheet{height:63px}
+  .list{display:none}
+  .picker{display:block;padding:16px 16px 0}
+  .picker label{display:block;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+  .picker select,.variant-pick select{width:100%;min-height:48px;border:1px solid var(--blue);border-radius:20px;padding:10px 14px;background:#fff;font-weight:700;font-size:16px}
+  .viewer{padding:12px 16px 20px}
+  .stage{flex:none;aspect-ratio:4/3}
+  .arrow{width:46px;height:46px;margin-top:-23px}
+  .variants{display:none}
+  .variant-pick{display:block;margin-top:6px}
+  .actions,.actions .btn{width:100%}
+}
+@media (prefers-reduced-motion:reduce){.stage img{transition:none}}
+
+/* Edit mode (editors only) */
+.editbtn{margin-top:auto;width:112px;min-height:44px;border:1px solid rgba(255,255,255,.55);border-radius:20px;background:transparent;color:#fff;font:inherit;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer}
+.editbtn svg{width:16px;height:16px}
+.editbtn[aria-pressed="true"]{background:#fff;color:var(--blue)}
+.editbtn + .stamp{margin-top:10px}
+.presentbtn{margin-top:auto;width:112px;min-height:44px;border:0;border-radius:20px;background:var(--cyan);color:#fff;text-shadow:0 1px 2px rgba(40,92,134,.75);font:inherit;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer}
+.presentbtn svg{width:16px;height:16px}
+.presentbtn[aria-pressed="true"]{background:#fff;color:var(--blue);text-shadow:none}
+.presentbtn + .editbtn,.presentbtn + .stamp{margin-top:10px}
+.presentbtn[hidden] + .editbtn{margin-top:auto}
+.ostat{margin-top:auto;width:112px;font-size:11px;font-weight:700;line-height:1.3;text-align:center;color:#fff;opacity:.9}
+.ostat b{display:block;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--green)}
+.presentbtn:not([hidden]) ~ .ostat,.editbtn:not([hidden]) ~ .ostat{margin-top:10px}
+.ostat + .stamp{margin-top:8px}
+.ebar{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:45;display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;background:#fff;border:2px solid var(--blue);border-radius:20px;padding:8px 10px 8px 18px;box-shadow:0 8px 28px rgba(0,0,0,.18);max-width:calc(100vw - 24px)}
+.ebar .etitle{font-weight:800;color:var(--blue);font-size:14px}
+.ebar .estat{font-size:14px;color:var(--muted);max-width:360px}
+.ebar .btn{min-height:40px;padding:8px 16px;font-size:13px}
+.btn.ghost{background:#fff;color:var(--blue);border-color:var(--blue)}
+.btn.ghost:hover{background:var(--blue);color:#fff}
+.btn.green{background:var(--green);color:#fff;text-shadow:0 1px 2px rgba(40,92,134,.6)}
+.btn.green:hover{background:#fff;color:var(--blue);border-color:var(--green);text-shadow:none}
+.btn[disabled]{opacity:.5;cursor:default}
+.etools{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.etools .btn{min-height:40px;padding:8px 16px;font-size:13px}
+.erow{display:flex;align-items:center;gap:4px}
+.erow > button[data-id]{flex:1;min-width:0}
+.erow.hid > button[data-id]{opacity:.45;text-decoration:line-through}
+.ectl{display:flex;gap:2px;flex-shrink:0}
+.ectl button,.ethc button{width:30px;height:30px;padding:0;border:1px solid var(--line);border-radius:15px;background:#fff;color:var(--blue);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.ectl button svg,.ethc button svg{width:16px;height:16px}
+.ectl button:hover,.ethc button:hover{border-color:var(--blue)}
+.addspace{margin:14px 10px 0;width:calc(100% - 20px)!important;border:2px dashed var(--blue)!important;color:var(--blue)!important;text-align:center!important;font-weight:800!important}
+.strip.editing{padding-bottom:4px}
+.eth{position:relative;flex-shrink:0;display:flex;flex-direction:column;gap:4px;align-items:center}
+.eth > button[data-i]{opacity:1}
+.ethc{display:flex;gap:3px}
+.eth .cover{position:absolute;left:4px;top:4px;background:var(--pink);color:#fff;font-size:10px;font-weight:800;letter-spacing:.06em;padding:2px 6px;border-radius:10px;pointer-events:none}
+.count:empty{display:none}
+.strip .ethc button{opacity:1;width:30px;height:30px;border-radius:15px;overflow:visible}
+.strip .addph{opacity:1;flex-shrink:0;width:104px;height:64px;border:2px dashed var(--blue);border-radius:8px;background:#fff;color:var(--blue);font-weight:800;font-size:12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.addph svg{width:20px;height:20px}
+.empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;text-align:center;padding:20px}
+.modal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px}
+.modal[hidden]{display:none}
+.mbox{background:#fff;border-radius:20px;width:min(560px,100%);max-height:calc(100vh - 32px);overflow:auto;padding:24px;display:flex;flex-direction:column;gap:14px}
+.mbox h3{margin:0;font-size:22px;font-weight:800;color:var(--blue)}
+.mbox label{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+.mbox input,.mbox textarea,.mbox select{font:inherit;font-size:16px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
+.mbox textarea{min-height:140px;resize:vertical}
+.mbox small{font-size:13px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--muted)}
+.mact{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.mact .btn{min-height:44px}
+@media (max-width:760px){.editbtn,.presentbtn,.ostat{display:none!important}}
+</style>
+
+<div class="app">
+  <nav class="rail" aria-label="Sections">
+    <div class="brand"><img src="img/mg-logo-white.png" alt="Moody Gardens, Galveston Island. Hotel, Spa &amp; Convention Center, Attractions, Golf Course"></div>
+    <div class="nav" id="nav"></div>
+    <button type="button" class="presentbtn" id="presentBtn" aria-pressed="false" hidden></button>
+    <button type="button" class="editbtn" id="editBtn" hidden aria-pressed="false"></button>
+    <div class="ostat" id="ostat" hidden role="status" aria-live="polite"></div>
+    <div class="stamp">Photos updated October 2026</div>
+  </nav>
+  <main class="main">
+    <section class="view home" id="v-home" aria-label="Home"></section>
+    <section class="view coll" id="v-coll" hidden>
+      <div class="list" id="list"></div>
+      <div class="viewer">
+        <div class="picker"><label for="pick">Choose a space</label><select id="pick"></select></div>
+        <div class="stage" id="stage">
+          <img id="photo" alt=""><div class="empty" id="empty" hidden>No photos yet</div>
+          <button class="arrow prev" id="prev" aria-label="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <button class="arrow next" id="next" aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
+          <div class="cap" id="cap"></div>
+          <div class="count" id="count"></div>
+        </div>
+        <div class="strip" id="strip" aria-label="Photos"></div>
+        <div class="info">
+          <div class="info-text">
+            <div class="eyebrow" id="eyebrow"></div>
+            <h1 id="title"></h1>
+            <ul class="facts" id="facts"></ul>
+            <div class="variants" id="variants" role="group" aria-label="Room options"></div>
+            <div class="links" id="links"></div>
+            <div class="etools" id="etools" hidden></div>
+            <div class="variant-pick" id="variantPickWrap"><select id="variantPick" aria-label="Room options"></select></div>
+          </div>
+          <div class="actions" id="actions"></div>
+        </div>
+      </div>
+    </section>
+    <section class="view tours" id="v-tours" hidden aria-label="360° Tours"></section>
+    <section class="view pano" id="v-pano" hidden aria-label="360° tour">
+      <div class="phead">
+        <button type="button" class="btn ghost" id="pBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Back</button>
+        <div class="ptitle"><div class="kicker" id="pWhere"></div><h2 id="pName"></h2></div>
+        <button type="button" class="btn blue" id="pFs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span class="fslabel">Full screen</span></button>
+      </div>
+      <div class="pstage" id="pStage">
+        <div id="pano"></div>
+        <div class="pmsg" id="pMsg" hidden></div>
+        <button class="arrow prev" id="pPrev" aria-label="Previous scene"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <button class="arrow next" id="pNext" aria-label="Next scene"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
+        <div class="pscene" id="pScene"></div>
+      </div>
+      <div class="pstrip" id="pStrip" aria-label="Scenes"></div>
+    </section>
+  </main>
+</div>
+<div class="ebar" id="ebar" hidden role="status" aria-live="polite">
+  <span class="etitle">Edit mode</span><span class="estat" id="estat"></span>
+  <button type="button" class="btn ghost" id="eDiscard">Discard</button>
+  <button type="button" class="btn green" id="eSave">Save</button>
+  <button type="button" class="btn blue" id="eDone">Done</button>
+</div>
+<div class="modal" id="modal" hidden><form class="mbox" id="mform"></form></div>
+<input type="file" id="filePick" accept="image/*" multiple hidden>
+<div class="fs" id="fs" hidden>
+  <img id="fsPhoto" alt="">
+  <button class="arrow prev" id="fsPrev" aria-label="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+  <button class="arrow next" id="fsNext" aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
+  <div class="count" id="fsCount"></div>
+  <button class="close" id="fsClose" aria-label="Close full screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</div>
+
+<script>
+let DATA = {"rooms": [{"id": "double-queen", "name": "Double Queen Room", "group": "Guest rooms", "photos": ["img/dq-main-01.webp", "img/dq-main-02.webp", "img/dq-main-03.webp", "img/dq-main-04.webp", "img/dq-main-05.webp", "img/dq-main-06.webp", "img/dq-main-07.webp", "img/dq-main-08.webp"], "facts": ["Two queen beds", "500 square feet", "Plush bathrobes, lighted vanities and a full-length mirror", "Wi-Fi and an in-room safe"], "eyebrow": "Guest room", "variants": [{"label": "Overview", "photos": ["img/dq-main-01.webp", "img/dq-main-02.webp", "img/dq-main-03.webp", "img/dq-main-04.webp", "img/dq-main-05.webp", "img/dq-main-06.webp", "img/dq-main-07.webp", "img/dq-main-08.webp"]}, {"label": "Pyramid View", "photos": ["img/dq-pyramid-01.webp", "img/dq-pyramid-02.webp", "img/dq-pyramid-03.webp", "img/dq-pyramid-04.webp", "img/dq-pyramid-05.webp", "img/dq-pyramid-06.webp", "img/dq-pyramid-07.webp", "img/dq-pyramid-08.webp"]}, {"label": "Pyramid View with Balcony", "photos": ["img/dq-balcony-01.webp", "img/dq-balcony-02.webp", "img/dq-balcony-03.webp", "img/dq-balcony-04.webp", "img/dq-balcony-05.webp", "img/dq-balcony-06.webp", "img/dq-balcony-07.webp", "img/dq-balcony-08.webp"]}, {"label": "Island View", "photos": ["img/dq-island-01.webp", "img/dq-island-02.webp", "img/dq-island-03.webp", "img/dq-island-04.webp", "img/dq-island-05.webp", "img/dq-island-06.webp", "img/dq-island-07.webp"]}, {"label": "Bayou View", "photos": ["img/dq-bayou-01.webp", "img/dq-bayou-02.webp", "img/dq-bayou-03.webp", "img/dq-bayou-04.webp", "img/dq-bayou-05.webp", "img/dq-bayou-06.webp", "img/dq-bayou-07.webp", "img/dq-bayou-08.webp", "img/dq-bayou-09.webp"]}, {"label": "Property View", "photos": ["img/dq-property-01.webp", "img/dq-property-02.webp", "img/dq-property-03.webp"]}, {"label": "Island View, wheelchair accessible", "photos": ["img/dq-ada-island-01.webp", "img/dq-ada-island-02.webp", "img/dq-ada-island-03.webp", "img/dq-ada-island-04.webp", "img/dq-ada-island-05.webp", "img/dq-ada-island-06.webp", "img/dq-ada-island-07.webp", "img/dq-ada-island-08.webp"]}, {"label": "Bayou View, accessible", "photos": ["img/dq-ada-bayou-01.webp", "img/dq-ada-bayou-02.webp", "img/dq-ada-bayou-03.webp", "img/dq-ada-bayou-04.webp", "img/dq-ada-bayou-05.webp", "img/dq-ada-bayou-06.webp", "img/dq-ada-bayou-07.webp", "img/dq-ada-bayou-08.webp"]}], "tour": "double-queen"}, {"id": "single-king", "name": "Single King Room", "group": "Guest rooms", "photos": ["img/n-sk-01.webp", "img/n-sk-02.webp", "img/n-sk-03.webp", "img/n-sk-04.webp", "img/n-sk-05.webp", "img/sk-main-01.webp", "img/sk-main-02.webp", "img/sk-main-03.webp", "img/sk-main-04.webp", "img/sk-main-05.webp", "img/sk-main-06.webp", "img/sk-main-07.webp"], "facts": ["One king bed", "500 square feet", "Plush bathrobes, lighted vanities and a full-length mirror", "Wi-Fi and an in-room safe"], "eyebrow": "Guest room", "variants": [{"label": "Overview", "photos": ["img/n-sk-01.webp", "img/n-sk-02.webp", "img/n-sk-03.webp", "img/n-sk-04.webp", "img/n-sk-05.webp", "img/sk-main-01.webp", "img/sk-main-02.webp", "img/sk-main-03.webp", "img/sk-main-04.webp", "img/sk-main-05.webp", "img/sk-main-06.webp", "img/sk-main-07.webp"]}, {"label": "Pyramid View", "photos": ["img/sk-pyramid-01.webp", "img/sk-pyramid-02.webp", "img/sk-pyramid-03.webp", "img/sk-pyramid-04.webp", "img/sk-pyramid-05.webp", "img/sk-pyramid-06.webp", "img/sk-pyramid-07.webp", "img/sk-pyramid-08.webp"]}, {"label": "Pyramid View with Balcony", "photos": ["img/sk-balcony-01.webp", "img/sk-balcony-02.webp", "img/sk-balcony-03.webp", "img/sk-balcony-04.webp", "img/sk-balcony-05.webp", "img/sk-balcony-06.webp", "img/sk-balcony-07.webp", "img/sk-balcony-08.webp"]}, {"label": "Island View", "photos": ["img/sk-island-01.webp", "img/sk-island-02.webp", "img/sk-island-03.webp", "img/sk-island-04.webp", "img/sk-island-05.webp", "img/sk-island-06.webp", "img/sk-island-07.webp", "img/sk-island-08.webp"]}, {"label": "Bayou View", "photos": ["img/sk-bayou-01.webp", "img/sk-bayou-02.webp", "img/sk-bayou-03.webp", "img/sk-bayou-04.webp", "img/sk-bayou-05.webp", "img/sk-bayou-06.webp", "img/sk-bayou-07.webp", "img/sk-bayou-08.webp"]}, {"label": "Property View", "photos": ["img/sk-property-01.webp", "img/sk-property-02.webp", "img/sk-property-03.webp", "img/sk-property-04.webp", "img/sk-property-05.webp", "img/sk-property-06.webp", "img/sk-property-07.webp", "img/sk-property-08.webp"]}, {"label": "Pyramid View, accessible", "photos": ["img/sk-ada-pyramid-01.webp", "img/sk-ada-pyramid-02.webp", "img/sk-ada-pyramid-03.webp", "img/sk-ada-pyramid-04.webp", "img/sk-ada-pyramid-05.webp", "img/sk-ada-pyramid-06.webp", "img/sk-ada-pyramid-07.webp", "img/sk-ada-pyramid-08.webp"]}, {"label": "Island View, accessible", "photos": ["img/sk-ada-island-01.webp", "img/sk-ada-island-02.webp", "img/sk-ada-island-03.webp", "img/sk-ada-island-04.webp", "img/sk-ada-island-05.webp", "img/sk-ada-island-06.webp", "img/sk-ada-island-07.webp", "img/sk-ada-island-08.webp"]}, {"label": "Pyramid View, wheelchair accessible", "photos": ["img/sk-wc-pyramid-01.webp", "img/sk-wc-pyramid-02.webp", "img/sk-wc-pyramid-03.webp", "img/sk-wc-pyramid-04.webp", "img/sk-wc-pyramid-05.webp", "img/sk-wc-pyramid-06.webp", "img/sk-wc-pyramid-07.webp", "img/sk-wc-pyramid-08.webp"]}], "tour": "single-king"}, {"id": "junior-suite", "name": "King Junior Suite with Balcony", "group": "Junior Suites", "photos": ["img/js-01.webp", "img/js-02.webp", "img/js-03.webp", "img/js-04.webp", "img/js-05.webp", "img/js-06.webp", "img/js-07.webp", "img/js-08.webp"], "facts": ["610 square feet", "King bed and two sofa beds", "Separate sitting area with a sofa and second TV", "Private balcony with Moody Gardens Pyramid views"], "eyebrow": "Junior Suite", "variants": [{"label": "King Junior Suite", "photos": ["img/js-01.webp", "img/js-02.webp", "img/js-03.webp", "img/js-04.webp", "img/js-05.webp", "img/js-06.webp", "img/js-07.webp", "img/js-08.webp"]}, {"label": "Accessible", "photos": ["img/js-ada-01.webp", "img/js-ada-02.webp", "img/js-ada-03.webp", "img/js-ada-04.webp", "img/js-ada-05.webp", "img/js-ada-06.webp", "img/js-ada-07.webp", "img/js-ada-08.webp"]}], "view": "pyramid", "tour": "junior-suite"}, {"id": "presidential", "name": "Presidential Suite", "group": "Suites", "photos": ["img/pres-01.webp", "img/pres-02.webp", "img/pres-03.webp", "img/pres-04.webp", "img/pres-05.webp", "img/pres-06.webp", "img/pres-07.webp", "img/pres-08.webp", "img/pres-09.webp", "img/pres-10.webp", "img/pres-11.webp", "img/pres-12.webp"], "facts": ["Two private king bedrooms", "1,200 square foot living area", "Views of the Moody Gardens property"], "eyebrow": "Suite", "view": "property"}, {"id": "butterfly", "name": "Butterfly Suite", "group": "Suites", "photos": ["img/butterfly-01.webp", "img/butterfly-02.webp", "img/butterfly-03.webp", "img/butterfly-04.webp", "img/butterfly-05.webp", "img/butterfly-06.webp", "img/butterfly-07.webp", "img/butterfly-08.webp", "img/butterfly-09.webp", "img/butterfly-10.webp"], "eyebrow": "Suite", "tour": "butterfly"}, {"id": "captain", "name": "Captain's Suite", "group": "Suites", "photos": ["img/captain-01.webp", "img/captain-02.webp", "img/captain-03.webp", "img/captain-04.webp", "img/captain-05.webp", "img/captain-06.webp", "img/captain-07.webp", "img/captain-08.webp", "img/captain-09.webp", "img/captain-10.webp", "img/captain-11.webp", "img/captain-12.webp"], "facts": ["800 square foot living area"], "eyebrow": "Suite", "tour": "captain"}, {"id": "coral", "name": "Coral Suite", "group": "Suites", "photos": ["img/coral-01.webp", "img/coral-02.webp", "img/coral-03.webp", "img/coral-04.webp", "img/coral-05.webp", "img/coral-06.webp", "img/coral-07.webp", "img/coral-08.webp", "img/coral-09.webp", "img/coral-10.webp", "img/coral-11.webp", "img/coral-12.webp"], "eyebrow": "Suite", "tour": "coral"}, {"id": "galveston", "name": "Galveston Suite", "group": "Suites", "photos": ["img/galveston-01.webp", "img/galveston-02.webp", "img/galveston-03.webp", "img/galveston-04.webp", "img/galveston-05.webp", "img/galveston-06.webp", "img/galveston-07.webp", "img/galveston-08.webp", "img/galveston-09.webp", "img/galveston-10.webp"], "facts": ["800 square foot living area"], "eyebrow": "Suite", "tour": "galveston"}, {"id": "garden", "name": "Garden Suite", "group": "Suites", "photos": ["img/garden-01.webp", "img/garden-02.webp", "img/garden-03.webp", "img/garden-04.webp", "img/garden-05.webp", "img/garden-06.webp", "img/garden-07.webp", "img/garden-08.webp", "img/garden-09.webp", "img/garden-10.webp", "img/garden-11.webp", "img/garden-12.webp"], "eyebrow": "Suite", "tour": "garden"}, {"id": "south-pacific", "name": "South Pacific Suite", "group": "Suites", "photos": ["img/southpacific-01.webp", "img/southpacific-02.webp", "img/southpacific-03.webp", "img/southpacific-04.webp", "img/southpacific-05.webp", "img/southpacific-06.webp", "img/southpacific-07.webp"], "facts": ["1,200 square foot living area"], "eyebrow": "Suite"}], "views": [{"id": "pyramid", "name": "Pyramid View", "group": "Room views", "photos": ["blobs/d68c87f30a554b667752d7a2c4fe1c87.webp", "blobs/137005189a809e1b3e8c537713e894b6.webp", "blobs/fb26871bd113306723add1a1e4c584b7.webp"], "eyebrow": "Room view"}, {"id": "island", "name": "Island View", "group": "Room views", "photos": ["blobs/f0874173d255858bcdd96b7379b4b999.webp"], "eyebrow": "Room view"}, {"id": "bayou", "name": "Bayou View", "group": "Room views", "photos": ["blobs/ef682c3f5017b734aa7c0e6583e3d4b5.webp"], "eyebrow": "Room view"}, {"id": "property", "name": "Property View", "group": "Room views", "photos": ["img/view-property-01.webp"], "eyebrow": "Room view", "hidden": true}], "meet": [{"id": "expo", "name": "Expo Hall", "group": "Hotel and Convention Center venues", "photos": ["img/expo-01.webp", "img/n-expo-01.webp", "img/expo-02.webp", "img/expo-03.webp", "img/expo-04.webp", "img/expo-05.webp", "img/expo-06.webp", "img/expo-07.webp", "img/expo-08.webp", "img/expo-09.webp", "img/expo-10.webp", "img/expo-11.webp"], "facts": ["60,000 square feet", "Divides into five rooms", "Capacity up to 7,000", "Floor boxes every 10 feet with electric, water, air, phone and internet", "Drive-in ramps and loading docks on both ends"], "eyebrow": "Moody Gardens Convention Center", "tour": "expo"}, {"id": "famb", "name": "Frances Anne Moody Ballroom", "group": "Hotel and Convention Center venues", "photos": ["img/famb-01.webp", "img/famb-02.webp", "img/famb-03.webp", "img/famb-04.webp", "img/famb-05.webp", "img/famb-06.webp", "img/famb-07.webp", "img/famb-08.webp"], "facts": ["15,180 square feet", "Divides into eight rooms", "Soaring ceilings and Lalique chandeliers"], "eyebrow": "Ballroom", "tour": "famb"}, {"id": "floral", "name": "Floral Ballroom", "group": "Hotel and Convention Center venues", "photos": ["img/floral-01.webp", "img/floral-02.webp", "img/floral-03.webp", "img/floral-04.webp", "img/floral-05.webp", "img/floral-06.webp", "img/floral-07.webp", "img/floral-08.webp"], "facts": ["9,100 square feet", "Divides into 12 meeting rooms", "Private second floor overlooking Offatts Bayou"], "eyebrow": "Ballroom", "tour": "floral"}, {"id": "boardroom", "name": "Executive Board Room", "group": "Hotel and Convention Center venues", "photos": ["img/n-board-01.webp", "img/n-board-02.webp", "img/boardroom-01.webp", "img/boardroom-02.webp", "img/boardroom-03.webp", "img/boardroom-04.webp", "img/boardroom-05.webp", "img/boardroom-06.webp"], "eyebrow": "Meeting room", "tour": "boardroom"}, {"id": "garden-cay", "name": "Garden Cay", "group": "Hotel and Convention Center venues", "photos": ["img/gardencay-01.webp", "img/gardencay-02.webp", "img/gardencay-03.webp", "img/gardencay-04.webp", "img/gardencay-05.webp", "img/gardencay-06.webp", "img/gardencay-07.webp", "img/gardencay-08.webp"], "facts": ["Front parlor and Billiard Room"], "eyebrow": "Hospitality space", "tour": "garden-cay"}, {"id": "ivy", "name": "Ivy", "group": "Hotel and Convention Center venues", "photos": ["img/ivy-01.webp", "img/ivy-02.webp", "img/ivy-03.webp"], "facts": ["Divides into Ivy 1 and Ivy 2"], "eyebrow": "Meeting room", "tour": "ivy"}, {"id": "vine", "name": "Vine", "group": "Hotel and Convention Center venues", "photos": ["img/vine-01.webp", "img/vine-02.webp", "img/vine-03.webp", "img/vine-04.webp"], "facts": ["Divides into Vine 1 and Vine 2"], "eyebrow": "Meeting room", "tour": "vine"}, {"id": "rooftop", "name": "Rooftop Terrace", "group": "Hotel and Convention Center venues", "photos": ["img/rooftop-01.webp", "img/rooftop-02.webp", "img/rooftop-03.webp", "img/rooftop-04.webp", "img/rooftop-05.webp", "img/rooftop-06.webp"], "facts": ["Open-air ceremonies and receptions"], "eyebrow": "Outdoor venue"}, {"id": "garden-lobby", "name": "Garden Lobby", "group": "Attraction venues", "photos": ["img/venue-gardenlobby-01.webp"], "facts": ["Tall glass ceiling with views of the Giant Otter exhibit", "Next to the MG3D Theater and the Garden Restaurant"], "eyebrow": "Attraction venue"}, {"id": "aquarium-venue", "name": "Aquarium Pyramid", "group": "Attraction venues", "photos": ["img/venue-aquarium-01.webp", "img/n-aq-01.webp", "img/n-aq-05.webp", "img/n-aq-02.webp"], "facts": ["Events in the Coral Room, the Pompano Room or the whole pyramid"], "eyebrow": "Attraction venue"}, {"id": "rainforest-venue", "name": "Rainforest Pyramid", "group": "Attraction venues", "photos": ["img/venue-rainforest-01.webp", "img/n-rf-02.webp", "img/n-rf-01.webp", "img/n-rf-07.webp"], "facts": ["Ceremonies and receptions among the rainforests of Asia, Africa and the Americas"], "eyebrow": "Attraction venue"}, {"id": "mg3d", "name": "MG3D Theater", "group": "Attraction venues", "photos": ["img/venue-mg3d-01.webp", "img/n-mg3d-01.webp"], "facts": ["400 seats", "Private screenings and corporate presentations"], "eyebrow": "Attraction venue"}, {"id": "palm-beach-venue", "name": "Palm Beach", "group": "Attraction venues", "photos": ["img/venue-palmbeach-01.webp", "img/n-pb-01.webp", "img/n-pb-07.webp", "img/n-pb-03.webp"], "facts": ["White sand, palm trees and Gulf breezes", "Seasonal, May through early September"], "eyebrow": "Attraction venue", "tour": "palm-beach"}, {"id": "garden-parties", "name": "Garden Parties", "group": "Attraction venues", "photos": ["img/venue-gardenparties-01.webp"], "facts": ["Outdoor events with catering, audio visual and event services"], "eyebrow": "Attraction venue", "tour": "garden-parties"}, {"id": "plans", "name": "Floor plans and capacity charts", "group": "Floor plans", "photos": ["img/plans-01.webp", "img/plans-02.webp", "img/plans-03.webp", "img/plans-04.webp", "img/plans-05.webp", "img/plans-06.webp"], "eyebrow": "Reference", "tour": "https://connect.socialtables.com/embed/3766", "fit": "contain", "caps": ["Convention Center floor plan", "Convention Center capacity chart", "Hotel meeting rooms floor plan", "Hotel meeting rooms capacity chart", "Floral Ballroom floor plan", "Palm Beach map"]}], "property": [{"id": "pool", "name": "Hotel pool", "group": "Hotel experience", "photos": ["img/pool-03.webp", "img/pool-02.webp", "img/pool-04.webp", "img/pool-05.webp", "img/pool-06.webp", "img/pool-07.webp", "img/pool-08.webp", "img/pool-09.webp"], "eyebrow": "Hotel"}, {"id": "lobby", "name": "Lobby and Lobby Bar", "group": "Hotel experience", "photos": ["img/lobby-06.webp", "img/lobby-02.webp", "img/lobby-03.webp", "img/lobby-04.webp", "img/lobby-05.webp", "img/n-lobby-01.webp", "img/n-lobby-02.webp", "img/n-lobby-03.webp"], "eyebrow": "Hotel"}, {"id": "shearns", "name": "Shearn’s Seafood & Prime Steaks", "group": "Hotel experience", "photos": ["img/n-shearns-01.webp", "img/n-shearns-02.webp", "img/n-shearns-03.webp", "img/n-shearns-04.webp", "img/n-shearns-05.webp", "img/n-shearns-06.webp", "img/n-shearns-07.webp", "img/n-shearns-08.webp", "img/n-shearns-09.webp", "img/shearns-03.webp", "img/shearns-08.webp"], "eyebrow": "Dining"}, {"id": "spa", "name": "Spa", "group": "Hotel experience", "photos": ["img/n-spa-01.webp", "img/n-spa-02.webp", "img/n-spa-03.webp", "img/spa-01.webp", "img/spa-02.webp", "img/spa-03.webp", "img/spa-04.webp"], "facts": ["Full-service spa"], "eyebrow": "Wellness"}, {"id": "exterior", "name": "Hotel and Convention Center", "group": "Hotel experience", "photos": ["img/n-ext-01.webp", "img/exterior-03.webp", "img/n-ext-02.webp", "img/n-ext-03.webp", "img/n-ext-04.webp", "img/n-ext-05.webp", "img/exterior-01.webp", "img/exterior-02.webp", "img/exterior-04.webp"], "facts": ["433 guest rooms", "103,000 square feet of meeting and event space"], "eyebrow": "The property"}], "attractions": [{"id": "aquarium", "name": "Aquarium Pyramid", "group": "Attractions", "photos": ["img/n-aq-01.webp", "img/n-aq-02.webp", "img/n-aq-03.webp", "img/n-aq-04.webp", "img/n-aq-05.webp", "img/n-aq-06.webp", "img/n-aq-07.webp", "img/n-aq-08.webp", "img/attr-aquarium-01.webp"], "facts": ["The Gulf of Mexico, South Atlantic, North Pacific, South Pacific and Caribbean in one pyramid"], "eyebrow": "Attraction"}, {"id": "rainforest", "name": "Rainforest Pyramid", "group": "Attractions", "photos": ["img/n-rf-01.webp", "img/n-rf-02.webp", "img/n-rf-03.webp", "img/n-rf-04.webp", "img/n-rf-05.webp", "img/n-rf-06.webp", "img/n-rf-07.webp", "img/n-rf-08.webp", "img/attr-rainforest-01.webp"], "facts": ["Rainforests of Asia, Africa and the Americas, up close"], "eyebrow": "Attraction"}, {"id": "discovery", "name": "Discovery Pyramid", "group": "Attractions", "photos": ["img/attr-discovery-01.webp"], "facts": ["Home to the Discovery Museum and the Audience Recognition Theater"], "eyebrow": "Attraction"}, {"id": "art", "name": "20,000 Leagues Under the Sea", "group": "Attractions", "photos": ["img/n-art-01.webp", "img/n-art-02.webp", "img/n-art-03.webp", "img/n-art-04.webp", "img/n-art-05.webp", "img/n-art-06.webp", "img/n-art-07.webp", "img/n-art-08.webp", "img/attr-art-01.webp"], "facts": ["Interactive submarine adventure in the Audience Recognition Theater"], "eyebrow": "Attraction"}, {"id": "theaters", "name": "3D and 4D theaters", "group": "Attractions", "photos": ["img/n-mg3d-01.webp", "img/n-mg3d-02.webp", "img/attr-theaters-01.webp"], "facts": ["Giant screens and surround sound"], "eyebrow": "Attraction"}, {"id": "palm-beach", "name": "Palm Beach", "group": "Attractions", "photos": ["img/n-pb-01.webp", "img/n-pb-02.webp", "img/n-pb-03.webp", "img/n-pb-04.webp", "img/n-pb-05.webp", "img/n-pb-06.webp", "img/n-pb-07.webp", "img/n-pb-08.webp", "img/attr-palmbeach-01.webp"], "facts": ["Galveston's only private white sand beach"], "eyebrow": "Attraction", "tour": "palm-beach"}, {"id": "zipline", "name": "Ropes Course and Zip Line", "group": "Attractions", "photos": ["img/n-zip-01.webp", "img/n-zip-02.webp", "img/n-zip-03.webp", "img/n-zip-04.webp", "img/n-zip-05.webp", "img/n-zip-06.webp", "img/n-zip-07.webp", "img/n-zip-08.webp", "img/attr-zipline-01.webp"], "facts": ["The Gulf Coast's tallest ropes course"], "eyebrow": "Attraction"}, {"id": "encounters", "name": "Animal Encounters", "group": "Attractions", "photos": ["img/attr-encounters-01.webp", "img/n-enc-01.webp", "img/n-enc-02.webp", "img/n-enc-03.webp", "img/n-enc-04.webp", "img/n-enc-05.webp"], "facts": ["Guided, up-close visits with stingrays, penguins, seals and river otters"], "eyebrow": "Attraction"}], "tours": [{"id": "expo", "name": "Expo Hall", "where": "Moody Gardens Convention Center", "kind": "meet", "scenes": [{"img": "pano/expo-01.webp", "title": "Exterior entrance"}, {"img": "pano/expo-02.webp", "title": "Expo C entrance"}, {"img": "pano/expo-03.webp", "title": "Expo B and C entrance"}, {"img": "pano/expo-04.webp", "title": "Concourse"}, {"img": "pano/expo-05.webp", "title": "Expo A entrance"}, {"img": "pano/expo-06.webp", "title": "Group registration desk"}, {"img": "pano/expo-07.webp", "title": "Expo A"}, {"img": "pano/expo-08.webp", "title": "Expo B"}, {"img": "pano/expo-09.webp", "title": "Expo C"}], "sheet": "pano/expo-sheet.webp"}, {"id": "famb", "name": "Frances Anne Moody Ballroom", "where": "Hotel and Convention Center", "kind": "meet", "scenes": [{"img": "pano/famb-01.webp", "title": "Ballroom"}, {"img": "pano/famb-02.webp", "title": "Interior entrance"}, {"img": "pano/famb-03.webp", "title": "Registration"}, {"img": "pano/famb-04.webp", "title": "Prefunction"}, {"img": "pano/famb-05.webp", "title": "Exterior rotunda"}], "sheet": "pano/famb-sheet.webp"}, {"id": "floral", "name": "Floral Ballroom", "where": "Hotel and Convention Center", "kind": "meet", "scenes": [{"img": "pano/floral-01.webp", "title": "Ballroom"}, {"img": "pano/floral-02.webp", "title": "Floral A1 and A2"}, {"img": "pano/floral-03.webp", "title": "Meeting rooms"}, {"img": "pano/floral-04.webp", "title": "Prefunction entrance"}, {"img": "pano/floral-05.webp", "title": "Prefunction"}], "sheet": "pano/floral-sheet.webp"}, {"id": "garden-cay", "name": "Garden Cay", "where": "Moody Gardens Hotel", "kind": "meet", "scenes": [{"img": "pano/garden-cay-01.webp", "title": "Front parlor"}, {"img": "pano/garden-cay-02.webp", "title": "Billiard Room"}, {"img": "pano/garden-cay-03.webp", "title": "Exterior entrance"}, {"img": "pano/garden-cay-04.webp", "title": "Exterior entrance, second view"}], "sheet": "pano/garden-cay-sheet.webp"}, {"id": "ivy", "name": "Ivy", "where": "Moody Gardens Hotel", "kind": "meet", "scenes": [{"img": "pano/ivy-01.webp", "title": "Ivy 1 and 2"}, {"img": "pano/ivy-02.webp", "title": "Ivy 1"}, {"img": "pano/ivy-03.webp", "title": "Ivy 2"}, {"img": "pano/ivy-04.webp", "title": "Entrance"}], "sheet": "pano/ivy-sheet.webp"}, {"id": "vine", "name": "Vine", "where": "Moody Gardens Hotel", "kind": "meet", "scenes": [{"img": "pano/vine-01.webp", "title": "Vine 1 and 2"}, {"img": "pano/vine-02.webp", "title": "Vine 1"}, {"img": "pano/vine-03.webp", "title": "Vine 2"}], "sheet": "pano/vine-sheet.webp"}, {"id": "boardroom", "name": "Executive Board Room", "where": "Moody Gardens Hotel", "kind": "meet", "scenes": [{"img": "pano/boardroom-01.webp", "title": "Board room"}], "sheet": "pano/boardroom-sheet.webp"}, {"id": "palm-beach", "name": "Palm Beach", "where": "Attraction venue", "kind": "venue", "scenes": [{"img": "pano/palm-beach-01.webp", "title": "Cabanas"}, {"img": "pano/palm-beach-02.webp", "title": "Wave pool"}, {"img": "pano/palm-beach-03.webp", "title": "Buffet"}, {"img": "pano/palm-beach-04.webp", "title": "Lazy river"}, {"img": "pano/palm-beach-05.webp", "title": "Tower slides"}, {"img": "pano/palm-beach-06.webp", "title": "Hot tub"}], "sheet": "pano/palm-beach-sheet.webp"}, {"id": "garden-parties", "name": "Garden Parties", "where": "Attraction venue", "kind": "venue", "scenes": [{"img": "pano/garden-parties-01.webp", "title": "Garden path"}, {"img": "pano/garden-parties-02.webp", "title": "Garden stage"}, {"img": "pano/garden-parties-03.webp", "title": "Garden steps"}, {"img": "pano/garden-parties-04.webp", "title": "Garden beds"}, {"img": "pano/garden-parties-05.webp", "title": "Garden walk"}], "sheet": "pano/garden-parties-sheet.webp"}, {"id": "double-queen", "name": "Double Queen Room", "where": "Guest room", "kind": "room", "scenes": [{"img": "pano/double-queen-01.webp", "title": "Pyramid View"}, {"img": "pano/double-queen-02.webp", "title": "Pyramid View with Balcony"}, {"img": "pano/double-queen-03.webp", "title": "Island View"}, {"img": "pano/double-queen-04.webp", "title": "Bayou View"}, {"img": "pano/double-queen-05.webp", "title": "Property View"}, {"img": "pano/double-queen-06.webp", "title": "Island View, wheelchair accessible"}, {"img": "pano/double-queen-07.webp", "title": "Bayou View, accessible"}, {"img": "pano/double-queen-08.webp", "title": "Bathroom"}], "sheet": "pano/double-queen-sheet.webp"}, {"id": "single-king", "name": "Single King Room", "where": "Guest room", "kind": "room", "scenes": [{"img": "pano/single-king-01.webp", "title": "Pyramid View"}, {"img": "pano/single-king-02.webp", "title": "Pyramid View with Balcony"}, {"img": "pano/single-king-03.webp", "title": "Island View"}, {"img": "pano/single-king-04.webp", "title": "Bayou View"}, {"img": "pano/single-king-05.webp", "title": "Property View"}, {"img": "pano/single-king-06.webp", "title": "Pyramid View, accessible"}, {"img": "pano/single-king-07.webp", "title": "Island View, accessible"}, {"img": "pano/single-king-08.webp", "title": "Pyramid View, wheelchair accessible"}, {"img": "pano/single-king-09.webp", "title": "Bathroom"}], "sheet": "pano/single-king-sheet.webp"}, {"id": "junior-suite", "name": "King Junior Suite with Balcony", "where": "Junior Suite", "kind": "room", "scenes": [{"img": "pano/junior-suite-01.webp", "title": "Bedroom"}, {"img": "pano/junior-suite-02.webp", "title": "Sitting area"}, {"img": "pano/junior-suite-03.webp", "title": "Balcony"}, {"img": "pano/junior-suite-04.webp", "title": "Accessible"}], "sheet": "pano/junior-suite-sheet.webp"}, {"id": "butterfly", "name": "Butterfly Suite", "where": "Suite", "kind": "room", "scenes": [{"img": "pano/butterfly-01.webp", "title": "Living room"}, {"img": "pano/butterfly-02.webp", "title": "Living and dining"}, {"img": "pano/butterfly-03.webp", "title": "Bedroom"}, {"img": "pano/butterfly-04.webp", "title": "Bedroom, second view"}, {"img": "pano/butterfly-05.webp", "title": "Balcony"}], "sheet": "pano/butterfly-sheet.webp"}, {"id": "captain", "name": "Captain's Suite", "where": "Suite", "kind": "room", "scenes": [{"img": "pano/captain-01.webp", "title": "Living room"}, {"img": "pano/captain-02.webp", "title": "Living room, window view"}, {"img": "pano/captain-03.webp", "title": "Bedroom"}, {"img": "pano/captain-04.webp", "title": "Second bedroom"}], "sheet": "pano/captain-sheet.webp"}, {"id": "coral", "name": "Coral Suite", "where": "Suite", "kind": "room", "scenes": [{"img": "pano/coral-01.webp", "title": "Living room"}, {"img": "pano/coral-02.webp", "title": "Wet bar"}, {"img": "pano/coral-03.webp", "title": "Bedroom"}], "sheet": "pano/coral-sheet.webp"}, {"id": "galveston", "name": "Galveston Suite", "where": "Suite", "kind": "room", "scenes": [{"img": "pano/galveston-01.webp", "title": "Living room"}, {"img": "pano/galveston-02.webp", "title": "Bedroom"}, {"img": "pano/galveston-03.webp", "title": "Second bedroom"}], "sheet": "pano/galveston-sheet.webp"}, {"id": "garden", "name": "Garden Suite", "where": "Suite", "kind": "room", "scenes": [{"img": "pano/garden-01.webp", "title": "Living room"}, {"img": "pano/garden-02.webp", "title": "Living room, second view"}, {"img": "pano/garden-03.webp", "title": "Sitting area"}, {"img": "pano/garden-04.webp", "title": "Bedroom"}], "sheet": "pano/garden-sheet.webp"}], "home": {"rooms": "img/pres-01.webp", "meet": "img/expo-02.webp", "tours": "img/floral-01.webp", "property": "img/pool-03.webp", "attractions": "img/n-aq-01.webp"}, "rev": 1792786585232};
+const PAGE_TPL = "";
+const OFFLINE_APP = true; // true in the installable offline build (pwa/)
+const SRC = {};
+const src = p => SRC[p] || p;
+const ICONS = {
+  home:'<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+  views:'<rect x="3" y="4" width="18" height="16" rx="1"/><path d="M12 4v16M3 12h18"/>',
+  rooms:'<path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6M3 18h18M3 18v2M21 18v2M6 10V7a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/>',
+  meet:'<rect x="3" y="4" width="18" height="12" rx="1"/><path d="M8 20h8M12 16v4"/>',
+  tours:'<circle cx="12" cy="9" r="3.2"/><path d="M8.5 18.3C4.7 17.6 2 15.9 2 14c0-1.4 1.5-2.7 4-3.5M18 10.5c2.5.8 4 2.1 4 3.5 0 2.3-4.5 4.2-10 4.2"/><path d="M14.2 15.9l-2.4 2.3 2.4 2.3"/>',
+  property:'<path d="M4 21V8l8-5 8 5v13M9 21v-6h6v6"/>',
+  attractions:'<path d="M12 3L2.5 20h19z"/><path d="M12 3v17M7.3 11.5h9.4M4.9 15.8h14.2"/>'
+};
+// Moody Gardens line icons, 24x24, stroke = currentColor. Accent shapes use class "a" (filled in Direction B only).
+const ICONS_MG = {
+home: `<path class="a" d="M11 20l5.5-10 5.5 10z"/>
+<path d="M2 20.5h20"/><path d="M3.5 20.5V6a1.5 1.5 0 0 1 1.5-1.5h3.5A1.5 1.5 0 0 1 10 6v14.5"/>
+<path d="M5.7 8h2.1M5.7 11h2.1M5.7 14h2.1M5.7 17h2.1"/>
+<path d="M11 20.5l5.5-10.5 5.5 10.5"/><path d="M16.5 10v10.5M13.4 16.2h6.2"/>`,
+tours: `<rect class="a" x="9" y="3" width="6" height="15" rx="3"/>
+<rect x="9" y="3" width="6" height="15" rx="3"/><circle cx="12" cy="7.6" r="1.7"/><path d="M11.2 13.6h1.6"/>
+<path d="M6.6 14.3C4.4 15 3 16 3 17.2c0 2.1 4 3.8 9 3.8s9-1.7 9-3.8c0-1.2-1.4-2.2-3.6-2.9"/><path d="M15.6 12.9l1.9 1.4-1.1 2.1"/>`,
+meet: `<path class="a" d="M7.5 20v-1.8a4.5 4.5 0 0 1 9 0V20z"/>
+<circle cx="12" cy="7.8" r="2.7"/><path d="M7.5 20v-1.8a4.5 4.5 0 0 1 9 0V20"/>
+<circle cx="5.4" cy="9.6" r="2"/><path d="M1.8 18.2v-.6a3.6 3.6 0 0 1 4.9-3.4"/>
+<circle cx="18.6" cy="9.6" r="2"/><path d="M22.2 18.2v-.6a3.6 3.6 0 0 0-4.9-3.4"/>
+<path d="M10.6 15.6l1.4 1.6 1.4-1.6M12 17.2v2.8" stroke-width="1.4"/>`,
+rooms: `<path class="a" d="M3 12h18v5H3z"/>
+<path d="M3 6.5v13M21 19.5v-6a2 2 0 0 0-2-2H3M3 16.5h18"/><rect x="5.3" y="8.3" width="5.4" height="3.2" rx="1.4"/>`,
+views: `<path class="a" d="M6 17.5l4-6.6 4 6.6z"/>
+<rect x="3.5" y="3" width="17" height="15" rx="1.5"/><path d="M2 20.5h20M12 3v7.4M3.5 17.5"/>
+<path d="M6 17.5l4-6.6 4 6.6M12.8 17.5l2.6-4.1 2.6 4.1"/><circle cx="16.4" cy="6.9" r="1.3"/>`,
+property: `<path class="a" d="M2.5 18.5c1.6 0 1.6-1 3.2-1s1.6 1 3.2 1 1.6-1 3.2-1 1.6 1 3.2 1 1.6-1 3.2-1 1.6 1 3 1V21h-19z"/>
+<path d="M2.5 18.5c1.6 0 1.6-1 3.2-1s1.6 1 3.2 1 1.6-1 3.2-1 1.6 1 3.2 1 1.6-1 3.2-1 1.6 1 3 1"/>
+<path d="M7.6 15.5c.2-3.2-.4-6-1.8-8.6"/>
+<path d="M5.8 6.9C4.6 5.6 2.9 5.4 1.8 6.1M5.8 6.9c.3-1.7 1.8-2.7 3.4-2.6M5.8 6.9c1.6-.6 3.4 0 4.3 1.3M5.8 6.9c-1.5.2-2.7 1.4-2.9 2.9"/>
+<circle cx="18" cy="6" r="2.2"/><path d="M14 15.5h8"/>`,
+attractions: `<path class="a" d="M12 4l4.3 15.5H7.7z"/>
+<path d="M2.5 19.5L12 4l9.5 15.5z"/><path d="M12 4L7.7 19.5M12 4l4.3 15.5M7.1 12h9.8M4.7 15.9h14.6"/>`
+};
+
+const SECTIONS = [
+  {id:'home',label:'Home'},
+  {id:'tours',label:'360° Tours'},
+  {id:'meet',label:'Meetings & Groups',title:'Meetings & Groups'},
+  {id:'rooms',label:'Rooms & Suites',title:'Rooms & Suites'},
+  {id:'views',label:'Views',title:'Room Views'},
+  {id:'property',label:'Hotel Experience',title:'Hotel Experience'},
+  {id:'attractions',label:'Attractions',title:'Attractions'}
+];
+const svg = (p, sw) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw||2}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const $ = id => document.getElementById(id);
+
+const state = {section:'home', item:{}, variant:0, idx:0};
+
+// Nav
+$('nav').innerHTML = SECTIONS.map(s => `<button type="button" data-s="${s.id}"><svg class="mgi" viewBox="0 0 24 24" aria-hidden="true">${ICONS_MG[s.id]}</svg><span>${s.label}</span></button>`).join('');
+$('nav').addEventListener('click', e => { const b = e.target.closest('button'); if (b) go(b.dataset.s); });
+
+// Home
+function renderHome(){
+const H = DATA.home;
+$('v-home').innerHTML = `
+  <div><div class="kicker">Moody Gardens Hotel, Spa &amp; Convention Center</div>
+  <h1>Stay, meet, dine and explore, all in one place on Galveston Island.</h1></div>
+  <div class="tiles">
+    <button type="button" class="tile big" data-s="tours"><img src="${src(H.tours)}" alt=""><span>360° Tours<small>Walk the spaces from here</small></span></button>
+    <button type="button" class="tile" data-s="meet"><img src="${src(H.meet)}" alt=""><span>Meetings &amp; Groups<small>Ballrooms, Expo Hall and attraction venues</small></span></button>
+    <button type="button" class="tile" data-s="rooms"><img src="${src(H.rooms)}" alt=""><span>Rooms &amp; Suites<small>Guest rooms, Junior Suites and suites</small></span></button>
+    <button type="button" class="tile" data-s="property"><img src="${src(H.property)}" alt=""><span>Hotel Experience<small>Pool, lobby, dining and spa</small></span></button>
+    <button type="button" class="tile" data-s="attractions"><img src="${src(H.attractions)}" alt=""><span>Attractions<small>Pyramids, Palm Beach and more</small></span></button>
+  </div>`;
+}
+$('v-home').addEventListener('click', e => { const b = e.target.closest('.tile'); if (b) go(b.dataset.s); });
+
+// Tours: 360° panoramas play inside the app (Pannellum), never in a new tab
+const TOUR_GROUPS = [['meet', 'Meeting and event spaces'], ['venue', 'Attraction venues'], ['room', 'Rooms & Suites']];
+function tourById(id){ return (DATA.tours || []).find(t => t.id === id && t.scenes); }
+function renderTours(){
+  const ts = (DATA.tours || []).filter(t => t.scenes);
+  $('v-tours').innerHTML = `
+  <div><div class="kicker">Virtual tours</div><h2>Walk the spaces in 360°</h2></div>
+  <p class="note">Tap a space to tour it here. Drag to look around, pinch to zoom, and tap the photos under the tour to move between areas. ${OFFLINE_APP ? 'Tours are saved on this tablet, so they work without internet.' : 'Tours load over the internet, so connect to Wi-Fi or a hotspot first.'}</p>
+  ${TOUR_GROUPS.map(([k, label]) => { const g = ts.filter(t => t.kind === k); return g.length ? `
+  <div class="tgroup"><h3>${esc(label)}</h3><div class="tgrid">${g.map(t => `
+    <button type="button" class="tcard" data-go="tour/${esc(t.id)}">
+      <div class="ph"><span class="sheet" style="${sheetStyle(t, 0)}"></span></div>
+      <div class="tx"><b>${esc(t.name)}</b><small>${esc(t.where)}, ${t.scenes.length} ${t.scenes.length === 1 ? 'scene' : 'scenes'}</small></div>
+    </button>`).join('')}</div></div>` : ''; }).join('')}`;
+}
+// Each tour has one image sheet: a 16:9 frame per scene, side by side. Frame 0 is the card.
+function sheetStyle(t, i){
+  const n = t.scenes.length;
+  return `background-image:url('${src(t.sheet)}');background-size:${n * 100}% 100%;background-position:${n > 1 ? (i / (n - 1)) * 100 : 0}% 0`;
+}
+// The scene that matches a room option, so "Open 360 tour" starts in the right room
+function tourScene(t, label){ const i = label ? t.scenes.findIndex(sc => sc.title === label) : -1; return i < 0 ? 0 : i; }
+
+const PANO = {tour:null, scene:0, viewer:null, lib:null, back:'tours'};
+const PNLM = 'vendor/pannellum';
+function loadPannellum(){
+  if (window.pannellum) return Promise.resolve();
+  if (PANO.lib) return PANO.lib;
+  PANO.lib = new Promise((res, rej) => {
+    const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = PNLM + '.css'; document.head.appendChild(l);
+    const sc = document.createElement('script'); sc.src = PNLM + '.js'; sc.onload = res;
+    sc.onerror = () => { PANO.lib = null; sc.remove(); rej(new Error('pannellum')); };
+    document.head.appendChild(sc);
+  });
+  return PANO.lib;
+}
+function curHash(){
+  const id = state.section;
+  if (id === 'home' || id === 'tours') return id;
+  const it = state.item[id];
+  return id + (it ? '/' + it + (state.variant ? '/' + state.variant : '') : '');
+}
+function pMsg(t){ $('pMsg').textContent = t || ''; $('pMsg').hidden = !t; }
+function openTour(id, scene, fromHash){
+  const t = tourById(id);
+  if (!t){ go('tours', fromHash); return; }
+  if (state.section !== 'tour'){
+    PANO.back = fromHash && state.section === 'home' && !PANO.tour ? 'tours' : curHash();
+    if (OFFLINE_APP && !fromHash){ try { history.pushState(null, '', '#tour/' + id); } catch (err) {} }
+  }
+  state.section = 'tour';
+  document.querySelectorAll('#nav button').forEach(b => b.setAttribute('aria-current', b.dataset.s === 'tours' ? 'page' : 'false'));
+  ['v-home', 'v-tours', 'v-coll'].forEach(v => { $(v).hidden = true; });
+  $('v-pano').hidden = false;
+  const fresh = PANO.tour !== t;
+  PANO.tour = t;
+  $('pName').textContent = t.name; $('pWhere').textContent = t.where;
+  $('pStrip').innerHTML = t.scenes.length > 1 ? t.scenes.map((sc, i) => `<button type="button" data-scene="${i}" aria-pressed="false"><i class="sheet" style="${sheetStyle(t, i)}"></i><span>${esc(sc.title)}</span></button>`).join('') : '';
+  $('pPrev').hidden = $('pNext').hidden = t.scenes.length < 2;
+  if (fresh && PANO.viewer){ try { PANO.viewer.destroy(); } catch (err) {} PANO.viewer = null; }
+  showScene(+scene || 0, fromHash);
+  window.scrollTo(0, 0);
+}
+function showScene(i, fromHash){
+  const t = PANO.tour, n = t.scenes.length;
+  i = ((i % n) + n) % n; PANO.scene = i;
+  const sc = t.scenes[i];
+  $('pScene').textContent = sc.title + (n > 1 ? '  (' + (i + 1) + ' of ' + n + ')' : '');
+  $('pStrip').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.scene === i)));
+  const cur = $('pStrip').querySelector('[aria-pressed="true"]');
+  if (cur && cur.scrollIntoView) cur.scrollIntoView({block:'nearest', inline:'center'});
+  if (!fromHash){ try { history.replaceState(null, '', '#tour/' + t.id + (i ? '/' + i : '')); } catch (err) {} }
+  if (!window.pannellum) pMsg('Loading the tour');
+  loadPannellum().then(() => {
+    if (PANO.tour !== t || PANO.scene !== i) return;
+    pMsg('');
+    if (PANO.viewer){ PANO.viewer.loadScene('s' + i, -4, 0, 100); return; }
+    const scenes = {};
+    t.scenes.forEach((x, k) => { scenes['s' + k] = {panorama: src(x.img)}; });
+    PANO.viewer = pannellum.viewer('pano', {
+      default: {firstScene: 's' + i, type: 'equirectangular', autoLoad: true, sceneFadeDuration: 500,
+        showControls: false, keyboardZoom: true, mouseZoom: true, compass: false,
+        hfov: 100, minHfov: 45, maxHfov: 120, pitch: -4, yaw: 0, friction: 0.2,
+        autoRotate: -2, autoRotateInactivityDelay: 6000, strings: {loadingLabel: 'Loading the view'}},
+      scenes: Object.fromEntries(Object.entries(scenes).map(([k, v]) => [k, Object.assign({type: 'equirectangular'}, v)]))
+    });
+  }).catch(() => pMsg('The 360 viewer could not load. Check the Wi-Fi or hotspot connection, then try again.'));
+}
+function closeTour(){
+  exitPfull();
+  if (PANO.viewer){ try { PANO.viewer.destroy(); } catch (err) {} PANO.viewer = null; }
+  PANO.tour = null;
+  $('v-pano').hidden = true;
+}
+function exitPfull(){
+  $('v-pano').classList.remove('pfull');
+  if (document.fullscreenElement === $('v-pano')){ try { document.exitFullscreen(); } catch (err) {} }
+}
+$('pBack').addEventListener('click', () => { const b = PANO.back || 'tours'; route(b); });
+$('pPrev').addEventListener('click', () => showScene(PANO.scene - 1));
+$('pNext').addEventListener('click', () => showScene(PANO.scene + 1));
+$('pStrip').addEventListener('click', e => { const b = e.target.closest('[data-scene]'); if (b) showScene(+b.dataset.scene); });
+$('pFs').addEventListener('click', () => {
+  const v = $('v-pano');
+  if (v.classList.contains('pfull')){ exitPfull(); }
+  else {
+    v.classList.add('pfull');
+    PANO.fsReal = !document.fullscreenElement && !!v.requestFullscreen;
+    if (PANO.fsReal){ try { const p = v.requestFullscreen(); if (p && p.catch) p.catch(() => { PANO.fsReal = false; }); } catch (err) { PANO.fsReal = false; } }
+  }
+  setTimeout(() => { if (PANO.viewer) PANO.viewer.resize(); }, 120);
+});
+document.addEventListener('fullscreenchange', () => {
+  if (PANO.fsReal && document.fullscreenElement !== $('v-pano')){ PANO.fsReal = false; $('v-pano').classList.remove('pfull'); }
+  if (PANO.viewer) setTimeout(() => PANO.viewer.resize(), 120);
+});
+// Present: one tap puts the whole app in full screen (hides Chrome's bars and the Claude bar)
+(function(){
+  const b = $('presentBtn'), de = document.documentElement;
+  if (!de.requestFullscreen || document.fullscreenEnabled === false) return;
+  if (window.matchMedia && matchMedia('(display-mode: fullscreen)').matches) return;
+  const ON = '<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>', OFF = '<path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/>';
+  function upd(){ const on = !!document.fullscreenElement; b.setAttribute('aria-pressed', String(on)); b.innerHTML = svg(on ? OFF : ON, 2.2) + (on ? 'Exit' : 'Present'); }
+  b.addEventListener('click', () => {
+    try {
+      const p = document.fullscreenElement ? document.exitFullscreen() : de.requestFullscreen({navigationUI: 'hide'});
+      if (p && p.catch) p.catch(() => {});
+    } catch (err) {}
+  });
+  document.addEventListener('fullscreenchange', upd);
+  upd(); b.hidden = false;
+})();
+
+// Views: which view a room option shows, and which room options share a view
+function viewFor(it, v){
+  if (it.view) return it.view === 'balcony' ? 'pyramid' : it.view;
+  const label = v ? v.label : '';
+  if (/Pyramid View/.test(label)) return 'pyramid';
+  if (/Island View/.test(label)) return 'island';
+  if (/Bayou View/.test(label)) return 'bayou';
+  if (/Property View/.test(label)) return 'property';
+  return null;
+}
+function roomsWithView(id){
+  const out = [];
+  for (const it of DATA.rooms){
+    if (it.variants) it.variants.forEach((v, i) => { if (viewFor(it, v) === id) out.push({item:it.id, variant:i, label:it.name + ', ' + v.label}); });
+    else if (viewFor(it) === id) out.push({item:it.id, variant:0, label:it.name});
+  }
+  return out;
+}
+
+// Collection view
+const stage = $('stage'), photo = $('photo');
+function allItems(){ return DATA[state.section] || []; }
+function items(){ const a = allItems(); return EDIT.on ? a : a.filter(i => !i.hidden); }
+function cur(){ const list = items(); return list.find(i => i.id === state.item[state.section]) || list[0] || {id:'', name:'', group:'', photos:[]}; }
+function photos(){ const it = cur(); const v = it.variants && it.variants[state.variant]; const p = v ? v.photos : it.photos; return p || (v ? (v.photos = []) : (it.photos = [])); }
+
+function renderList(){
+  const sec = SECTIONS.find(s => s.id === state.section);
+  let html = `<h2>${sec.title}</h2>`, last = null, opts = '', og = null;
+  for (const it of items()){
+    if (it.group !== last){ html += `<div class="grp">${esc(it.group)}</div>`; last = it.group;
+      if (og !== null) opts += '</optgroup>'; opts += `<optgroup label="${esc(it.group)}">`; og = it.group; }
+    const b = `<button type="button" data-id="${it.id}" aria-current="${it.id === cur().id}">${esc(it.name)}</button>`;
+    html += EDIT.on ? `<div class="erow${it.hidden ? ' hid' : ''}">${b}<span class="ectl">
+      <button type="button" data-mv="-1" data-mid="${it.id}" aria-label="Move ${esc(it.name)} up">${svg('<path d="M6 15l6-6 6 6"/>', 2.4)}</button>
+      <button type="button" data-mv="1" data-mid="${it.id}" aria-label="Move ${esc(it.name)} down">${svg('<path d="M6 9l6 6 6-6"/>', 2.4)}</button>
+      <button type="button" data-hide="${it.id}" aria-label="${it.hidden ? 'Show' : 'Hide'} ${esc(it.name)}">${svg(it.hidden ? EYE_OFF : EYE, 2)}</button></span></div>` : b;
+    opts += `<option value="${it.id}"${it.id === cur().id ? ' selected' : ''}>${esc(it.name)}</option>`;
+  }
+  if (EDIT.on) html += `<button type="button" class="addspace" id="addSpace">+ Add a space</button>`;
+  $('list').innerHTML = html;
+  $('pick').innerHTML = opts + '</optgroup>';
+}
+function renderItem(){
+  const it = cur();
+  $('eyebrow').textContent = it.eyebrow || it.group;
+  $('title').textContent = it.name;
+  const check = svg('<path d="M5 12l5 5 9-10"/>', 3).replace('stroke="currentColor"', 'stroke="#91c73f"');
+  $('facts').innerHTML = (it.facts || []).map(f => `<li>${check}<span>${esc(f)}</span></li>`).join('');
+  const vs = it.variants || [];
+  $('variants').innerHTML = vs.map((v, i) => `<button type="button" data-v="${i}" aria-pressed="${i === state.variant}">${esc(v.label)}</button>`).join('');
+  $('variantPick').innerHTML = vs.map((v, i) => `<option value="${i}"${i === state.variant ? ' selected' : ''}>${esc(v.label)}</option>`).join('');
+  $('variantPickWrap').hidden = !vs.length;
+  let links = '';
+  if (state.section === 'views'){
+    const rs = roomsWithView(it.id);
+    if (rs.length) links = '<b>Rooms with this view</b>' + rs.map(r => `<button type="button" data-go="rooms/${r.item}/${r.variant}">${esc(r.label)}</button>`).join('');
+  }
+  $('links').innerHTML = links;
+  let acts = '';
+  const vw = state.section === 'rooms' ? viewFor(it, vs[state.variant]) : null;
+  if (vw) acts += `<button type="button" class="btn pink" data-go="views/${vw}">${svg(ICONS.views, 2.2)}See the view</button>`;
+  const tt = it.tour && !/^https?:/.test(it.tour) ? tourById(it.tour) : null;
+  if (tt) acts += `<button type="button" class="btn cyan" data-go="tour/${esc(tt.id)}/${tourScene(tt, vs[state.variant] && vs[state.variant].label)}">${svg(ICONS.tours, 2.2)}Open 360 tour</button>`;
+  else if (it.tour && /^https?:/.test(it.tour)) acts += `<a class="btn cyan" href="${esc(it.tour)}" target="_blank" rel="noopener">${svg(ICONS.tours, 2.2)}${it.id === 'plans' ? 'Interactive floor plans' : 'Open 360 tour'}</a>`;
+  acts += `<button type="button" class="btn blue" id="fsBtn">${svg('<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>', 2.2)}Full screen</button>`;
+  $('actions').innerHTML = acts;
+  stage.classList.toggle('contain', it.fit === 'contain');
+  renderTools();
+  renderStrip(); show(0);
+}
+function renderStrip(){
+  const ps = photos();
+  $('strip').classList.toggle('editing', EDIT.on);
+  if (!EDIT.on){ $('strip').innerHTML = ps.map((p, i) => `<button type="button" data-i="${i}" aria-label="Photo ${i + 1}"><img src="${src(p)}" alt="" loading="lazy"></button>`).join(''); return; }
+  $('strip').innerHTML = ps.map((p, i) => `<div class="eth">
+      <button type="button" data-i="${i}" aria-label="Photo ${i + 1}"><img src="${src(p)}" alt="" loading="lazy"></button>
+      ${i === 0 ? '<span class="cover">COVER</span>' : ''}
+      <span class="ethc">
+        <button type="button" data-pm="-1" data-pi="${i}" aria-label="Move photo ${i + 1} left">${svg('<path d="M15 18l-6-6 6-6"/>', 2.4)}</button>
+        <button type="button" data-pc="${i}" aria-label="Make photo ${i + 1} the cover">${svg('<path d="M12 3l2.6 5.6 6 .6-4.5 4 1.3 6L12 16.3 6.6 19.2l1.3-6-4.5-4 6-.6z"/>', 1.8)}</button>
+        <button type="button" data-pm="1" data-pi="${i}" aria-label="Move photo ${i + 1} right">${svg('<path d="M9 18l6-6-6-6"/>', 2.4)}</button>
+        <button type="button" data-pr="${i}" aria-label="Remove photo ${i + 1}">${svg('<path d="M6 6l12 12M18 6L6 18"/>', 2.4)}</button>
+      </span></div>`).join('') + `<button type="button" class="addph" id="addPh">${svg('<path d="M12 5v14M5 12h14"/>', 2.4)}Add photos</button>`;
+}
+function show(i){
+  const ps = photos(); const n = ps.length;
+  $('empty').hidden = n > 0; photo.hidden = n === 0;
+  if (!n){ state.idx = 0; photo.removeAttribute('src'); $('count').textContent = ''; $('cap').textContent = ''; $('prev').hidden = $('next').hidden = true; $('strip').hidden = !EDIT.on; $('empty').textContent = EDIT.on ? 'No photos yet. Use Add photos below.' : 'Photos coming soon'; return; }
+  state.idx = (i + n) % n;
+  photo.src = src(ps[state.idx]);
+  photo.alt = cur().name + ', photo ' + (state.idx + 1);
+  $('count').textContent = (state.idx + 1) + ' of ' + n;
+  const caps = cur().caps; $('cap').textContent = caps && !cur().variants ? (caps[state.idx] || '') : '';
+  $('prev').hidden = $('next').hidden = n < 2;
+  $('strip').hidden = n < 2 && !EDIT.on;
+  [...$('strip').children].forEach((b, k) => b.setAttribute('aria-current', k === state.idx));
+  const active = $('strip').children[state.idx]; if (active) active.scrollIntoView({block:'nearest', inline:'nearest'});
+  [1, -1].forEach(d => { const im = new Image(); im.src = src(ps[(state.idx + d + n) % n]); });
+  if (!$('fs').hidden) fsShow();
+}
+$('list').addEventListener('click', e => {
+  const m = e.target.closest('button[data-mv]'); if (m){ moveItem(m.dataset.mid, +m.dataset.mv); return; }
+  const h = e.target.closest('button[data-hide]'); if (h){ toggleHide(h.dataset.hide); return; }
+  if (e.target.closest('#addSpace')){ addSpace(); return; }
+  const b = e.target.closest('button[data-id]'); if (b) selectItem(b.dataset.id);
+});
+$('pick').addEventListener('change', e => selectItem(e.target.value));
+function selectItem(id){ state.item[state.section] = id; state.variant = 0; renderList(); renderItem(); }
+$('variants').addEventListener('click', e => { const b = e.target.closest('button[data-v]'); if (b) setVariant(+b.dataset.v); });
+$('variantPick').addEventListener('change', e => setVariant(+e.target.value));
+function setVariant(v){ state.variant = v; renderItem(); }
+$('strip').addEventListener('click', e => {
+  if (e.target.closest('#addPh')){ $('filePick').click(); return; }
+  const pm = e.target.closest('button[data-pm]'); if (pm){ movePhoto(+pm.dataset.pi, +pm.dataset.pm); return; }
+  const pc = e.target.closest('button[data-pc]'); if (pc){ movePhoto(+pc.dataset.pc, -999); return; }
+  const pr = e.target.closest('button[data-pr]'); if (pr){ removePhoto(+pr.dataset.pr); return; }
+  const b = e.target.closest('button[data-i]'); if (b) show(+b.dataset.i);
+});
+$('prev').addEventListener('click', () => show(state.idx - 1));
+$('next').addEventListener('click', () => show(state.idx + 1));
+$('actions').addEventListener('click', e => { if (e.target.closest('#fsBtn')) openFs(); });
+document.addEventListener('click', e => { const b = e.target.closest('[data-go]'); if (b) route(b.dataset.go); });
+
+// Swipe on the photo
+function swipe(el, onLeft, onRight){
+  let x0 = null, y0 = null;
+  el.addEventListener('pointerdown', e => { if (e.target.closest('button')) return; x0 = e.clientX; y0 = e.clientY; });
+  el.addEventListener('pointerup', e => {
+    if (x0 === null) return; const dx = e.clientX - x0, dy = e.clientY - y0; x0 = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) (dx < 0 ? onLeft : onRight)();
+  });
+  el.addEventListener('pointercancel', () => { x0 = null; });
+}
+swipe(stage, () => show(state.idx + 1), () => show(state.idx - 1));
+
+// Full screen
+const fs = $('fs');
+function fsShow(){ const ps = photos(); if (!ps.length){ closeFs(); return; } $('fsPhoto').src = src(ps[state.idx]); $('fsPhoto').alt = photo.alt; $('fsCount').textContent = (state.idx + 1) + ' of ' + ps.length; }
+let fsReal = false;
+function openFs(){
+  fs.hidden = false; fsShow();
+  // In Present mode the whole app is already full screen, so the photo viewer is just an overlay
+  fsReal = !document.fullscreenElement && !!fs.requestFullscreen;
+  if (fsReal){ try { const p = fs.requestFullscreen(); if (p && p.catch) p.catch(() => { fsReal = false; }); } catch (err) { fsReal = false; } }
+  $('fsClose').focus();
+}
+function closeFs(){
+  fs.hidden = true;
+  try { if (document.fullscreenElement === fs) document.exitFullscreen().catch(() => {}); } catch (err) {}
+  fsReal = false;
+}
+document.addEventListener('fullscreenchange', () => { if (fsReal && document.fullscreenElement !== fs){ fsReal = false; fs.hidden = true; } });
+$('fsClose').addEventListener('click', closeFs);
+$('fsPrev').addEventListener('click', () => show(state.idx - 1));
+$('fsNext').addEventListener('click', () => show(state.idx + 1));
+swipe(fs, () => show(state.idx + 1), () => show(state.idx - 1));
+document.addEventListener('keydown', e => {
+  if (state.section === 'tour'){ if (e.key === 'Escape') exitPfull(); return; }
+  if (state.section === 'home' || state.section === 'tours' || !$('modal').hidden) return;
+  if (/^(INPUT|TEXTAREA|SELECT)$/.test((e.target || {}).tagName || '')) return;
+  if (e.key === 'ArrowRight') show(state.idx + 1);
+  else if (e.key === 'ArrowLeft') show(state.idx - 1);
+  else if (e.key === 'Escape' && !fs.hidden) closeFs();
+});
+
+// Routing
+function route(hash, fromHash){
+  const [id, item, variant] = String(hash || '').split('/');
+  if (id === 'tour'){ openTour(item, +variant || 0, fromHash); return; }
+  go(id, fromHash, item, +variant || 0);
+}
+function go(id, fromHash, item, variant){
+  if (!SECTIONS.some(s => s.id === id)) id = 'home';
+  if (state.section === 'tour') closeTour();
+  state.section = id; state.variant = 0;
+  if (item && (DATA[id] || []).some(i => i.id === item)){ state.item[id] = item; state.variant = variant || 0; }
+  document.querySelectorAll('#nav button').forEach(b => b.setAttribute('aria-current', b.dataset.s === id ? 'page' : 'false'));
+  $('v-home').hidden = id !== 'home';
+  $('v-tours').hidden = id !== 'tours';
+  $('v-coll').hidden = id === 'home' || id === 'tours';
+  if (!$('v-coll').hidden){ renderList(); renderItem(); }
+  if (!fromHash){ try { history[OFFLINE_APP ? 'pushState' : 'replaceState'](null, '', id === 'home' ? location.pathname + location.search : '#' + id + (item ? '/' + item + (state.variant ? '/' + state.variant : '') : '')); } catch (err) {} }
+  window.scrollTo(0, 0);
+}
+// ---------- Edit mode (people who can edit this artifact) ----------
+// Content lives in data/showcase.json. Saving publishes that file plus any new photos;
+// every other file is carried over, and every open view reloads to the new version.
+const EYE = '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>';
+const EYE_OFF = '<path d="M3 3l18 18M10.6 5.1A10.6 10.6 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4.1M6.6 6.6C3.9 8.3 2 12 2 12s3.6 7 10 7c1.8 0 3.4-.5 4.8-1.3"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/>';
+const PENCIL = '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>';
+const EDIT = {on:false, dirty:0, art:null, assets:null, uploads:{}, snapshot:null, saving:false};
+// The page can rebuild itself: the template is kept in PAGE_TPL, data goes in at the DATA marker.
+const MK_D = '__' + 'DATA' + '__', MK_T = '__' + 'TPL' + '__';
+const safeJS = o => JSON.stringify(o).replace(/</g, '\\u003c');
+const SKEL_HEAD = '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>';
+function buildPage(){
+  return SKEL_HEAD + PAGE_TPL.split(MK_D).join(safeJS(DATA)).split(MK_T).join(safeJS(PAGE_TPL)) + '</body></html>';
+}
+const clone = o => JSON.parse(JSON.stringify(o));
+
+function setStatus(t){ $('estat').textContent = t; }
+function updateBar(){
+  $('ebar').hidden = !EDIT.on;
+  $('eSave').disabled = !EDIT.dirty || EDIT.saving;
+  $('eDiscard').disabled = !EDIT.dirty || EDIT.saving;
+  if (!EDIT.saving) setStatus(EDIT.dirty ? EDIT.dirty + (EDIT.dirty === 1 ? ' unsaved change' : ' unsaved changes') : 'All changes saved');
+}
+function changed(){ EDIT.dirty++; updateBar(); }
+function rerender(keepIdx){
+  const idx = state.idx;
+  if (!$('v-coll').hidden){ renderList(); renderItem(); if (keepIdx != null) show(keepIdx); else show(idx); }
+}
+function renderTools(){
+  const t = $('etools');
+  t.hidden = !EDIT.on || !cur().id;
+  if (t.hidden){ t.innerHTML = ''; return; }
+  const it = cur();
+  t.innerHTML = `<button type="button" class="btn ghost" id="eDetails">${svg(PENCIL, 2)}Edit name and details</button>
+    <button type="button" class="btn ghost" id="eAddPh">${svg('<path d="M12 5v14M5 12h14"/>', 2.4)}Add photos</button>
+    <button type="button" class="btn ghost" id="eHide">${svg(it.hidden ? EYE : EYE_OFF, 2)}${it.hidden ? 'Show this space' : 'Hide this space'}</button>`;
+}
+$('etools').addEventListener('click', e => {
+  if (e.target.closest('#eDetails')) editDetails();
+  else if (e.target.closest('#eAddPh')) $('filePick').click();
+  else if (e.target.closest('#eHide')) toggleHide(cur().id);
+});
+
+function moveItem(id, dir){
+  const a = allItems(); const i = a.findIndex(x => x.id === id); if (i < 0) return;
+  let j = i + dir;
+  while (j >= 0 && j < a.length && a[j].group !== a[i].group) j += dir;
+  if (j < 0 || j >= a.length) return;
+  [a[i], a[j]] = [a[j], a[i]]; changed(); renderList();
+}
+function toggleHide(id){
+  const it = allItems().find(x => x.id === id); if (!it) return;
+  if (it.hidden) delete it.hidden; else it.hidden = true;
+  changed(); renderList(); renderTools();
+}
+function movePhoto(i, dir){
+  const ps = photos(); if (i < 0 || i >= ps.length) return;
+  const j = dir === -999 ? 0 : i + dir; if (j < 0 || j >= ps.length || j === i) return;
+  const [p] = ps.splice(i, 1); ps.splice(j, 0, p);
+  changed(); renderStrip(); show(j);
+}
+function removePhoto(i){
+  const ps = photos(); if (i < 0 || i >= ps.length) return;
+  ps.splice(i, 1); changed(); renderStrip(); show(Math.min(i, ps.length - 1));
+}
+
+// Photos: resized on this device to 2000px on the long side, saved as WebP (JPEG if WebP is unavailable)
+async function loadBitmap(file){
+  if (window.createImageBitmap){ try { return await createImageBitmap(file); } catch (err) {} }
+  return await new Promise((res, rej) => { const u = URL.createObjectURL(file); const im = new Image(); im.onload = () => res(im); im.onerror = () => rej(new Error('decode')); im.src = u; });
+}
+async function prepPhoto(file){
+  const bmp = await loadBitmap(file);
+  const w0 = bmp.width, h0 = bmp.height, k = Math.min(1, 2000 / Math.max(w0, h0));
+  const c = document.createElement('canvas'); c.width = Math.round(w0 * k); c.height = Math.round(h0 * k);
+  c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+  let blob = await new Promise(r => c.toBlob(r, 'image/webp', 0.82));
+  let ext = 'webp';
+  if (!blob || blob.type !== 'image/webp'){ blob = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.85)); ext = 'jpg'; }
+  return {blob, ext};
+}
+$('filePick').addEventListener('change', async e => {
+  const files = [...(e.target.files || [])]; e.target.value = '';
+  if (!files.length || !EDIT.on) return;
+  const ps = photos(); let added = 0, failed = 0;
+  setStatus('Preparing ' + files.length + (files.length === 1 ? ' photo…' : ' photos…'));
+  for (const f of files){
+    try {
+      const {blob, ext} = await prepPhoto(f);
+      const path = 'local:' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 7) + '.' + ext;
+      EDIT.uploads[path] = blob; SRC[path] = URL.createObjectURL(blob); ps.push(path); added++;
+    } catch (err) { failed++; }
+  }
+  if (added){ EDIT.dirty += added; }
+  updateBar();
+  if (failed) setStatus(failed + (failed === 1 ? ' photo' : ' photos') + " couldn't be read. Use JPG, PNG or WebP files.");
+  renderStrip(); show(ps.length - 1);
+});
+
+// Small form dialog
+let modalSave = null;
+function openModal(title, body, saveLabel, onSave){
+  $('mform').innerHTML = `<h3>${esc(title)}</h3>${body}<div class="mact"><button type="button" class="btn ghost" id="mCancel">Cancel</button><button type="submit" class="btn blue">${esc(saveLabel)}</button></div>`;
+  modalSave = onSave; $('modal').hidden = false;
+  const f = $('mform').querySelector('input,textarea'); if (f) f.focus();
+}
+function closeModal(){ $('modal').hidden = true; modalSave = null; }
+$('mform').addEventListener('submit', e => { e.preventDefault(); if (modalSave && modalSave(new FormData($('mform'))) !== false) closeModal(); });
+$('mform').addEventListener('click', e => { if (e.target.closest('#mCancel')) closeModal(); });
+$('modal').addEventListener('click', e => { if (e.target === $('modal')) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('modal').hidden) closeModal(); });
+
+function editDetails(){
+  const it = cur();
+  openModal('Edit ' + it.name, `
+    <label>Name<input name="name" required maxlength="80" value="${esc(it.name)}"></label>
+    <label>Label above the name<input name="eyebrow" maxlength="60" value="${esc(it.eyebrow || '')}"><small>For example: Ballroom, Suite, Attraction venue.</small></label>
+    <label>Details<textarea name="facts">${esc((it.facts || []).join('\n'))}</textarea><small>One detail per line. Each line shows with a green check.</small></label>`,
+    'Apply', fd => {
+      const name = String(fd.get('name') || '').trim(); if (!name) return false;
+      it.name = name;
+      const eb = String(fd.get('eyebrow') || '').trim(); if (eb) it.eyebrow = eb; else delete it.eyebrow;
+      const facts = String(fd.get('facts') || '').split('\n').map(x => x.trim()).filter(Boolean);
+      if (facts.length) it.facts = facts; else delete it.facts;
+      changed(); renderList(); renderItem();
+    });
+}
+function addSpace(){
+  const groups = [...new Set(allItems().map(i => i.group))];
+  openModal('Add a space', `
+    <label>Name<input name="name" required maxlength="80"></label>
+    <label>List heading<select name="group">${groups.map(g => `<option>${esc(g)}</option>`).join('')}</select></label>
+    <label>Label above the name<input name="eyebrow" maxlength="60"><small>Optional.</small></label>`,
+    'Add space', fd => {
+      const name = String(fd.get('name') || '').trim(); if (!name) return false;
+      const group = String(fd.get('group') || groups[0] || '');
+      const a = allItems();
+      let id = 'u-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'u-space';
+      while (a.some(x => x.id === id)) id += '-2';
+      const it = {id, name, group, photos: []};
+      const eb = String(fd.get('eyebrow') || '').trim(); if (eb) it.eyebrow = eb;
+      let at = -1; a.forEach((x, k) => { if (x.group === group) at = k; });
+      a.splice(at + 1, 0, it);
+      state.item[state.section] = id; state.variant = 0;
+      changed(); renderList(); renderItem();
+    });
+}
+
+function setEditing(on){
+  EDIT.on = on;
+  $('editBtn').setAttribute('aria-pressed', String(on));
+  $('editBtn').innerHTML = svg(PENCIL, 2) + (on ? 'Editing' : 'Edit');
+  if (on && !EDIT.snapshot) EDIT.snapshot = clone(DATA);
+  updateBar(); rerender();
+}
+$('editBtn').addEventListener('click', () => { if (!EDIT.on) setEditing(true); else tryDone(); });
+function tryDone(){
+  if (EDIT.dirty){ setStatus('Save or discard your changes first.'); return; }
+  setEditing(false);
+}
+$('eDone').addEventListener('click', tryDone);
+$('eDiscard').addEventListener('click', () => {
+  if (!EDIT.dirty || EDIT.saving) return;
+  DATA = clone(EDIT.snapshot); EDIT.uploads = {}; EDIT.dirty = 0;
+  updateBar(); renderHome(); rerender(0); setStatus('Changes discarded');
+});
+$('eSave').addEventListener('click', save);
+window.addEventListener('beforeunload', e => { if (EDIT.dirty){ e.preventDefault(); e.returnValue = ''; } });
+
+async function save(){
+  if (!EDIT.dirty || EDIT.saving || !EDIT.art) return;
+  EDIT.saving = true; updateBar(); setStatus('Saving…');
+  try {
+    // 1. Upload new photos that are still in use, then point the data at their permanent addresses
+    let json = JSON.stringify(DATA);
+    const pending = Object.keys(EDIT.uploads).filter(p => json.includes('"' + p + '"'));
+    if (pending.length && !EDIT.assets) throw {code: 'no_assets'};
+    let k = 0;
+    for (const p of pending){
+      setStatus('Uploading photo ' + (++k) + ' of ' + pending.length + '…');
+      const r = await EDIT.assets.upload(EDIT.uploads[p]);
+      const perm = '/_blob/' + r.id;
+      SRC[perm] = SRC[p]; json = json.split('"' + p + '"').join('"' + perm + '"');
+      delete EDIT.uploads[p];
+    }
+    DATA = JSON.parse(json);
+    DATA.rev = Date.now();
+    setStatus('Saving…');
+    // 2. Save the content file. If this view can't publish files (for example on a public link), save the whole page instead.
+    try { await EDIT.art.publish({'data/showcase.json': {content: JSON.stringify(DATA), contentType: 'application/json'}}); }
+    catch (x) {
+      if (!x || !['capability_disabled', 'capability_removed'].includes(x.code)) throw x;
+      EDIT.dirty = 0; // the page reloads to the new version after this publish
+      await EDIT.art.publish(buildPage());
+    }
+    EDIT.saving = false; EDIT.uploads = {}; EDIT.dirty = 0; EDIT.snapshot = clone(DATA); updateBar();
+    setStatus('Saved. Every tablet shows this the next time the app opens.');
+  } catch (err) {
+    EDIT.saving = false; updateBar();
+    const code = (err && err.code) || 'upstream_error';
+    if (code === 'conflict') setStatus('A newer version was saved first. The app is reloading to it, so these changes were not saved.');
+    else if (code === 'too_large' || code === 'too_large_file' || code === 'quota_exceeded') setStatus('That save is too large. Try fewer or smaller photos.');
+    else if (code === 'rate_limited') setStatus('Saving too often. Wait a minute, then save again.');
+    else if (code === 'no_assets') setStatus('Photo uploads are not available in this view. Open the app in Claude as an editor.');
+    else if (['not_writer', 'not_granted', 'not_declared', 'capability_disabled', 'capability_removed', 'consent_required'].includes(code)){
+      setStatus('Saving is not available in this view. Open the app in Claude, signed in as an editor.');
+      $('eSave').disabled = true;
+    }
+    else setStatus("Couldn't save. Check the connection and try again.");
+  }
+}
+
+async function initEdit(){
+  try {
+    if (!window.claude || typeof claude.use !== 'function') return;
+    const [user, art] = await Promise.all([claude.use('user'), claude.use('artifact')]);
+    if (!user || !art) return;
+    if (!(await user.canEdit())) return;
+    EDIT.art = art;
+    claude.use('assets').then(a => { EDIT.assets = a; }).catch(() => {});
+    $('editBtn').innerHTML = svg(PENCIL, 2) + 'Edit';
+    $('editBtn').hidden = false;
+  } catch (err) {}
+}
+
+// ---------- Offline (installable build only) ----------
+// sw.js serves files from the tablet's cache. offlineSync() saves every file listed in files.json,
+// and on later launches with internet downloads only the files that changed.
+const OCACHE = 'mg-showcase';
+function oStat(html){ const o = $('ostat'); o.innerHTML = html; o.hidden = !html; }
+async function offlineSync(){
+  if (!('caches' in window)) return;
+  try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (err) {}
+  const c = await caches.open(OCACHE);
+  const abs = p => new URL(p, location.href).href;
+  const prevR = await c.match(abs('__files'));
+  const prev = prevR ? await prevR.json() : {files:{}};
+  let list;
+  try { const r = await fetch('files.json', {cache: 'no-store'}); if (!r.ok) throw 0; list = await r.json(); }
+  catch (err) { oStat(prevR ? '<b>Offline</b>Showing the saved copy' : 'Connect to the internet once to save the app'); return; }
+  const have = new Set((await c.keys()).map(q => q.url));
+  const todo = Object.keys(list.files).filter(p => prev.files[p] !== list.files[p] || !have.has(abs(p)));
+  let done = 0, failed = 0;
+  const show = () => { if (todo.length) oStat('<b>Saving</b>' + Math.round(done / todo.length * 100) + '% for offline'); };
+  show();
+  const queue = todo.slice();
+  async function worker(){
+    while (queue.length){
+      const p = queue.shift();
+      try { const r = await fetch(p, {cache: 'reload'}); if (!r.ok) throw 0; await c.put(abs(p), r); }
+      catch (err) { failed++; }
+      done++; show();
+    }
+  }
+  await Promise.all([worker(), worker(), worker(), worker()]);
+  for (const k of have){ const rel = k.replace(new URL('.', location.href).href, ''); if (rel !== '__files' && !(rel in list.files) && rel !== '' ) await c.delete(k); }
+  if (failed){ oStat('<b>Not saved yet</b>' + failed + ' files missing. Open the app on Wi-Fi to finish.'); return; }
+  await c.put(abs('__files'), new Response(JSON.stringify(list), {headers: {'Content-Type': 'application/json'}}));
+  oStat('<b>Ready offline</b>' + (todo.length && prevR ? 'Updated ' : 'Saved ') + new Date(list.built).toLocaleDateString());
+}
+function initOffline(){
+  if (!OFFLINE_APP || !('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('sw.js').then(() => navigator.serviceWorker.ready).then(offlineSync).catch(() => {});
+}
+
+// ---------- Boot ----------
+async function boot(){
+  try {
+    const r = await fetch('data/showcase.json', {cache: 'no-cache'});
+    if (r.ok){ const d = await r.json(); if (d && d.rooms && d.meet && d.tours && (d.rev || 0) >= (DATA.rev || 0)) DATA = d; }
+  } catch (err) {}
+  renderHome(); renderTours();
+  window.addEventListener('hashchange', () => route(location.hash.slice(1), true));
+  route(location.hash.slice(1) || 'home', true);
+  initEdit();
+  initOffline();
+}
+boot();
+
+</script>
+</body></html>
